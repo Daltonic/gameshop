@@ -4,7 +4,7 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 const Header = () => {
   return (
     <div className="flex justify-between items-center shadow-sm shadow-gray-200 p-5">
-      <h4 className="text-md">GameShop</h4>
+      <h4 className="text-md font-bold">GameShop</h4>
       
       <div className="flex justify-end items-center space-x-6">
         <div className="flex justify-center items-center space-x-4">
@@ -27,10 +27,10 @@ const Header = () => {
           />
         </div>
 
-        <button className="px-6 py-2.5 bg-pink-600 text-white font-medium text-xs 
-        leading-tight uppercase rounded-full shadow-md hover:bg-pink-700 hover:shadow-lg
-        focus:bg-pink-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-800 
-        active:shadow-lg transition duration-150 ease-in-out"
+        <button className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
+          leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg
+          focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-900 
+          active:shadow-lg transition duration-150 ease-in-out"
         >
          Connect
         </button>
