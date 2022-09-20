@@ -1,14 +1,16 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import Identicon from 'react-identicons'
 
 const Header = () => {
+  const navigate = useNavigate()
+
   return (
     <div className="flex justify-between items-center shadow-sm shadow-gray-200 p-5">
       <Link to="/" className="text-md font-bold">GameShop</Link>
 
       <div className="flex justify-end items-center space-x-6">
-        <div className="flex justify-center items-center space-x-4">
+        <button onClick={() => navigate('/cart')} className="flex justify-center items-center space-x-4 bg-transparent">
           <span
             class="rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex 
             align-center cursor-pointer active:bg-gray-300 transition duration-300 
@@ -28,7 +30,7 @@ const Header = () => {
             size={25}
             className="h-10 w-10 object-contain rounded-full cursor-pointer"
           />
-        </div>
+        </button>
 
         <button
           className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
