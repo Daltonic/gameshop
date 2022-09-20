@@ -1,16 +1,14 @@
-import Banner from "./components/Banner"
-import Cards from "./components/Cards"
-import Header from "./components/Header"
-import ShopStats from "./components/ShopStats"
+import { Route, Routes } from 'react-router-dom'
+import Header from './components/Header'
+import Home from './views/Home'
 
 const App = () => {
   return (
     <div className="min-h-screen">
       <Header />
-      <Banner />
-      <ShopStats />
-      <div className="h-20"></div>
-      <Cards />
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
     </div>
   )
 }
