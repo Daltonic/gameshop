@@ -1,5 +1,6 @@
 import game from '../assets/game.jpg'
 import { FaEthereum } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 const Cards = () => {
   return (
@@ -9,7 +10,7 @@ const Cards = () => {
         {Array(5)
           .fill()
           .map((game, i) => (
-            <Card key={i} />
+            <Card id={i} key={i} />
           ))}
       </div>
       <div className='flex justify-center items-center my-5'>
@@ -26,10 +27,10 @@ const Cards = () => {
   )
 }
 
-const Card = () => (
+const Card = ({id}) => (
   <div className="flex flex-col justify-center items-start space-y-2 my-5">
     <img className="h-56 w-56 object-cover" src={game} alt="Game" />
-    <h4 className="text-lg font-bold">Virtual Land</h4>
+    <Link to={'/product/' + id} className="text-lg font-bold">Virtual Land</Link>
 
     <div className="flex justify-between items-center w-full">
       <div className="flex justify-start items-center">
