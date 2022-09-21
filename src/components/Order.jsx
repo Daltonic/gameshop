@@ -1,11 +1,11 @@
 import game from '../assets/game.jpg'
-import { FaEthereum } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { FaEthereum } from 'react-icons/fa'
 
-const Cart = () => {
+const Order = () => {
   return (
     <div className="flex flex-col justify-between items-center space-x-2 md:w-2/3 w-full p-5 mx-auto">
-      <h4 className="text-center uppercase mb-8">Shopping Cart</h4>
+      <h4 className="text-center uppercase mb-8">Orders</h4>
 
       <table className="min-w-full hidden md:table">
         <thead className="border-b">
@@ -23,19 +23,21 @@ const Cart = () => {
               Price
             </th>
             <th scope="col" className="text-sm font-medium px-6 py-4 text-left">
-              Action
+              Status
             </th>
             <th scope="col" className="text-sm font-medium px-6 py-4 text-left">
               Total
             </th>
           </tr>
         </thead>
-
         <tbody>
           {Array(5)
             .fill()
             .map((order, i) => (
-              <tr key={i} className="border-b border-gray-200 transition duration-300 ease-in-out">
+              <tr
+                key={i}
+                className="border-b border-gray-200 transition duration-300 ease-in-out"
+              >
                 <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
                   <span className="text-gray-700 font-bold">{i + 1}</span>
                 </td>
@@ -48,14 +50,7 @@ const Cart = () => {
                 </td>
 
                 <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                  <input
-                    type="number"
-                    className="text-base font-normal text-gray-700
-                border border-solid border-gray-300
-                rounded transition ease-in-out focus:text-gray-700
-                focus:border-blue-600 focus:outline-none w-[80px]"
-                    placeholder="Qty"
-                  />
+                  <span className="text-gray-700 font-bold">2</span>
                 </td>
 
                 <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
@@ -66,15 +61,13 @@ const Cart = () => {
                 </td>
 
                 <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                  <button
-                    type="button"
-                    className="inline-block px-6 py-2.5 bg-transparent text-red-600 font-medium
-                text-xs leading-tight uppercase rounded hover:text-red-700
-                hover:bg-gray-100 focus:bg-gray-100 focus:outline-none focus:ring-0
-                active:bg-gray-200 transition duration-150 ease-in-out"
+                  <span
+                    className="px-4 py-2 rounded-full text-green-500 bg-green-200 font-semibold
+                    text-sm flex align-center w-max cursor-pointer active:bg-gray-300
+                    transition duration-300 ease"
                   >
-                    Remove
-                  </button>
+                    Delievered
+                  </span>
                 </td>
                 <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
                   <small className="flex justify-start items-center space-x-1">
@@ -91,50 +84,56 @@ const Cart = () => {
         {Array(5)
           .fill()
           .map((order, i) => (
-            <div key={i} className="flex flex-col justify-center items-center my-4
-              border-b border-gray-200 transition duration-300 ease-in-out">
-              <Link
-                to={'/product/' + i}
-                className="flex flex-col justify-center items-center space-y-2 text-sm font-light"
-              >
+            <div
+              key={i}
+              className="flex flex-col justify-center items-center  my-4
+              transition duration-300 ease-in-out border-b border-gray-200"
+            >
+              <div className="flex justify-center">
+                <span className="text-gray-700 font-bold text-sm">
+                  #{i + 1}
+                </span>
+              </div>
+
+              <Link to={'/product/' + i} className="flex flex-col justify-center items-center space-y-2 text-sm font-light">
                 <img className="w-1/3 md:w-2/3" src={game} alt="game" />
                 <small className="font-bold">Virtual Land</small>
               </Link>
 
-              <div className="flex justify-center">
-                <input
-                  type="number"
-                  className="text-base font-normal text-gray-700
-                border border-solid border-gray-300
-                rounded transition ease-in-out focus:text-gray-700
-                focus:border-blue-600 focus:outline-none w-[80px]"
-                  placeholder="Qty"
-                />
-              </div>
-
               <div className="text-sm font-light">
                 <small className="flex justify-start items-center space-x-1">
                   <FaEthereum />
-                  <span className="text-gray-700 font-bold">0.34 EHT</span>
+                  <span className="text-gray-700 font-bold">
+                    2 x 0.34 EHT = 0.68 EHT
+                  </span>
                 </small>
               </div>
 
-              <div className="text-sm font-light mb-4">
-                <button
-                  type="button"
-                  className="inline-block px-6 py-2.5 bg-transparent text-red-600 font-medium
-                text-xs leading-tight uppercase rounded hover:text-red-700
-                hover:bg-gray-100 focus:bg-gray-100 focus:outline-none focus:ring-0
-                active:bg-gray-200 transition duration-150 ease-in-out"
+              <div className="text-sm font-light mt-2 mb-4">
+                <span
+                  className="px-4 py-2 rounded-full text-green-500 bg-green-200 font-semibold
+                    text-sm flex align-center w-max cursor-pointer active:bg-gray-300
+                    transition duration-300 ease"
                 >
-                  Remove
-                </button>
+                  Delievered
+                </span>
               </div>
             </div>
           ))}
+      </div>
+
+      <div className="flex justify-center items-center my-5">
+        <button
+          className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
+          leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg
+        focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-900 
+          active:shadow-lg transition duration-150 ease-in-out"
+        >
+          Load More
+        </button>
       </div>
     </div>
   )
 }
 
-export default Cart
+export default Order

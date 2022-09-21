@@ -13,7 +13,8 @@ const Cards = () => {
             <Card id={i} key={i} />
           ))}
       </div>
-      <div className='flex justify-center items-center my-5'>
+
+      <div className="flex justify-center items-center my-5">
         <button
           className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
           leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg
@@ -27,11 +28,13 @@ const Cards = () => {
   )
 }
 
-const Card = ({id}) => (
+const Card = ({ id }) => (
   <div className="flex flex-col justify-center items-start space-y-2 my-5">
-    <img className="h-56 w-56 object-cover" src={game} alt="Game" />
-    <Link to={'/product/' + id} className="text-lg font-bold">Virtual Land</Link>
-
+    <Link to={'/product/' + id}>
+      <img className="h-56 w-56 object-cover" src={game} alt="Game" />
+      <h4 className="text-lg font-bold">Virtual Land</h4>
+    </Link>
+    
     <div className="flex justify-between items-center w-full">
       <div className="flex justify-start items-center">
         <FaEthereum size={15} />

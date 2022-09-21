@@ -5,7 +5,7 @@ const Banner = () => {
   return (
     <div
       className="flex flex-col lg:flex-row justify-center lg:justify-between 
-    items-center lg:space-x-10 md:w-2/3 w-full p-5 mx-auto"
+      items-center lg:space-x-10 md:w-2/3 w-full p-5 mx-auto"
     >
       <img className="mb-5 lg:mb-0" src={bannerImg} alt="banner" />
       <div className="flex flex-col justify-between  items-start lg:items-center text-center lg:text-left">
