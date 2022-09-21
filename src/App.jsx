@@ -4,6 +4,7 @@ import ShoppingCart from './views/ShoppingCart'
 import Home from './views/Home'
 import Product from './views/Product'
 import Orders from './views/Orders'
+import Chat from './views/Chat'
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/cart" element={<ShoppingCart />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/orders/" element={<Orders />} />
+        <Route path="/chat/:id" element={<Chat />} />
       </Routes>
     </div>
   )

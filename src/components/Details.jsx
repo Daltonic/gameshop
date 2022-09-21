@@ -1,12 +1,15 @@
 import game from '../assets/game.jpg'
-import { FaEthereum } from 'react-icons/fa'
 import Identicon from 'react-identicons'
+import { FaEthereum } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 
 const Details = () => {
+  const navigate = useNavigate()
+
   return (
     <div
       className="flex flex-col lg:flex-row justify-center lg:justify-between 
-    items-center lg:space-x-10 md:w-2/3 w-full p-5 mx-auto"
+      items-center lg:space-x-10 md:w-2/3 w-full p-5 mx-auto"
     >
       <img className="w-full lg:w-2/5 mb-5 lg:mb-0" src={game} alt="banner" />
       <div className="flex flex-col justify-between  items-start lg:items-center text-center lg:text-left">
@@ -16,6 +19,7 @@ const Details = () => {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nam
             vero porro, placeat labore explicabo excepturi?
           </p>
+
           <div className="flex justify-center lg:justify-between space-x-2 items-center">
             <div className="flex justify-start items-center space-x-2">
               <Identicon
@@ -25,9 +29,11 @@ const Details = () => {
               />
               <small className="font-bold">0xd1...3ea</small>
             </div>
+
             <span className="text-sm text-gray-500">6 in stock</span>
           </div>
         </div>
+
         <div className="flex justify-start text-center items-center flex-wrap space-x-2 mx-auto lg:ml-0">
           <button
             className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
@@ -36,6 +42,7 @@ const Details = () => {
             active:shadow-lg transition duration-150 ease-in-out flex justify-start items-center space-x-2"
           >
             <span>Add to Cart</span>
+
             <div className="flex justify-start items-center">
               <FaEthereum size={15} />
               <span className="font-semibold">2.5</span>
@@ -47,6 +54,7 @@ const Details = () => {
             leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg border
             focus:border-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:border-blue-900 
             active:shadow-lg transition duration-150 ease-in-out hover:text-white"
+            onClick={() => navigate('/chat/' + 1)}
           >
             Chat with Seller
           </button>
