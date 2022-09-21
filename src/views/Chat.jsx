@@ -30,15 +30,13 @@ const ChatHeader = () => {
       </span>
 
       <span
+        onClick={() => navigate('/product/' + 1)}
         className="rounded-full text-gray-500 bg-gray-200 font-semibold text-sm
         flex align-center cursor-pointer active:bg-gray-300
         transition duration-300 ease w-max"
       >
         <span className="flex items-center px-3 py-2">Exit</span>
-        <button
-          onClick={() => navigate('/product/' + 1)}
-          className="bg-transparent hover focus:outline-none pr-2"
-        >
+        <button className="bg-transparent hover focus:outline-none pr-2">
           <FaTimes size={15} />
         </button>
       </span>
@@ -48,13 +46,32 @@ const ChatHeader = () => {
 
 const Messages = () => {
   return (
-    <div
-      id="messages-container"
-      className="w-full md:w-2/3 p-5 mx-auto
-        h-[calc(100vh_-_16rem)] overflow-y-auto"
-    >
-      <LeftMessage />
-      <RightMessage />
+    <div className="w-full md:w-2/3 p-5 mx-auto">
+      <div
+        id="messages-container"
+        className="h-[calc(100vh_-_18rem)] overflow-y-auto mb-8"
+      >
+        {Array(5)
+          .fill()
+          .map(() => (
+            <>
+              <LeftMessage />
+              <RightMessage />
+            </>
+          ))}
+      </div>
+      <form className="flex w-full">
+        <input
+          className="w-full bg-gray-200 rounded-lg p-4 
+          focus:ring-0 focus:outline-none border-gray-500"
+          type="text"
+          placeholder="Write a message..."
+          required
+        />
+        <button type="submit" hidden>
+          Send
+        </button>
+      </form>
     </div>
   )
 }
