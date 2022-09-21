@@ -3,7 +3,9 @@ import { FaEthereum } from 'react-icons/fa'
 
 const Cart = () => {
   return (
-    <div className="flex flex-col justify-center items-center space-x-2 md:w-2/3 w-full p-5 mx-auto">
+    <div className="flex flex-col justify-between items-center space-x-2 md:w-2/3 w-full p-5 mx-auto">
+      <h4 className="text-center uppercase">Shopping Cart</h4>
+
       <table className="min-w-full hidden md:table">
         <thead className="border-b">
           <tr>
