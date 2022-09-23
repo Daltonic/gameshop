@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import Header from './components/Header'
+import AddButton from './components/AddButton'
 import ShoppingCart from './views/ShoppingCart'
 import Home from './views/Home'
 import Product from './views/Product'
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/orders/" element={<Orders />} />
         <Route path="/chat/:id" element={<Chat />} />
       </Routes>
+      <AddButton />
     </div>
   )
 }
