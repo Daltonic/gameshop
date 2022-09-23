@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
+import { FaEthereum } from 'react-icons/fa'
 import Identicon from 'react-identicons'
 
 const Header = () => {
@@ -7,7 +8,10 @@ const Header = () => {
 
   return (
     <div className="flex justify-between items-center shadow-sm shadow-gray-200 p-5">
-      <Link to="/" className="text-md font-bold">GameShop</Link>
+      <Link to="/" className="flex justify-start items-center space-x-1 text-md font-bold">
+        <FaEthereum className="cursor-pointer" size={25} />
+        <span>GameShop</span>
+      </Link>
 
       <div className="flex justify-end items-center space-x-6">
         <div className="flex justify-center items-center space-x-4">

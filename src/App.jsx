@@ -6,6 +6,7 @@ import Home from './views/Home'
 import Product from './views/Product'
 import Orders from './views/Orders'
 import Chat from './views/Chat'
+import CreateProduct from './components/CreateProduct'
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/chat/:id" element={<Chat />} />
       </Routes>
       <AddButton />
+      <CreateProduct />
     </div>
   )
 }
