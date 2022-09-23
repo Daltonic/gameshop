@@ -10,11 +10,13 @@ import CreateProduct from './components/CreateProduct'
 import Menu from './components/Menu'
 import Seller from './views/Seller'
 import Recent from './views/Recent'
+import Stats from './views/Stats'
 
 const App = () => {
   return (
     <div className="min-h-screen">
       <Header />
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<ShoppingCart />} />
@@ -23,7 +25,9 @@ const App = () => {
         <Route path="/chat/:id" element={<Chat />} />
         <Route path="/recents" element={<Recent />} />
         <Route path="/seller/:id" element={<Seller />} />
+        <Route path="/stats/:id" element={<Stats />} />
       </Routes>
+
       <AddButton />
       <CreateProduct />
       <Menu />

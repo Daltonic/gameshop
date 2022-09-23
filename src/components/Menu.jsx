@@ -84,6 +84,7 @@ const Menu = () => {
                 uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700
                 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 hover:text-white
                 active:shadow-lg transition duration-150 ease-in-out w-full text-left"
+              onClick={() => navTo('/stats/0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')}
             >
               My Stats
             </button>
