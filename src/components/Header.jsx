@@ -2,13 +2,17 @@ import { Link, useNavigate } from 'react-router-dom'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { FaEthereum } from 'react-icons/fa'
 import Identicon from 'react-identicons'
+import { setGlobalState } from '../store'
 
 const Header = () => {
   const navigate = useNavigate()
 
   return (
     <div className="flex justify-between items-center shadow-sm shadow-gray-200 p-5">
-      <Link to="/" className="flex justify-start items-center space-x-1 text-md font-bold">
+      <Link
+        to="/"
+        className="flex justify-start items-center space-x-1 text-md font-bold"
+      >
         <FaEthereum className="cursor-pointer" size={25} />
         <span>GameShop</span>
       </Link>
@@ -29,8 +33,11 @@ const Header = () => {
               7
             </span>
           </button>
-          
-          <button onClick={() => navigate('/orders')} className='bg-transparent'>
+
+          <button
+            onClick={() => setGlobalState('menu', 'scale-100')}
+            className="bg-transparent shadow-sm shadow-gray-400 rounded-full"
+          >
             <Identicon
               string={'account'}
               size={25}

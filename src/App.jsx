@@ -7,6 +7,7 @@ import Product from './views/Product'
 import Orders from './views/Orders'
 import Chat from './views/Chat'
 import CreateProduct from './components/CreateProduct'
+import Menu from './components/Menu'
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
       </Routes>
       <AddButton />
       <CreateProduct />
+      <Menu />
     </div>
   )
 }
