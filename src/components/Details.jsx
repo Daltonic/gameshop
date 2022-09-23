@@ -1,7 +1,7 @@
 import game from '../assets/game.jpg'
 import Identicon from 'react-identicons'
 import { FaEthereum } from 'react-icons/fa'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 const Details = () => {
   const navigate = useNavigate()
@@ -21,14 +21,17 @@ const Details = () => {
           </p>
 
           <div className="flex justify-center lg:justify-between space-x-2 items-center">
-            <div className="flex justify-start items-center space-x-2">
+            <Link
+              to={'/seller/0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'}
+              className="flex justify-start items-center space-x-2"
+            >
               <Identicon
                 string={'seller'}
                 size={25}
                 className="h-10 w-10 object-contain rounded-full cursor-pointer"
               />
               <small className="font-bold">0xd1...3ea</small>
-            </div>
+            </Link>
 
             <span className="text-sm text-gray-500">6 in stock</span>
           </div>

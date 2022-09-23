@@ -8,7 +8,7 @@ const Home = () => {
       <Banner />
       <ShopStats />
       <div className="h-20"></div>
-      <Cards />
+      <Cards title="Global Shop" />
     </>
   )
 }

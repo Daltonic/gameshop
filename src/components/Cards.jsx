@@ -1,11 +1,21 @@
 import game from '../assets/game.jpg'
+import Identicon from 'react-identicons'
 import { FaEthereum } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
-const Cards = () => {
+const Cards = ({ title, seller }) => {
   return (
     <>
-      <h4 className="text-center uppercase">Games</h4>
+      <div className="flex flex-col items-center space-y-4">
+        {seller ? (
+          <Identicon
+            string={'0adsclsidnt'}
+            size={70}
+            className="h-10 w-10 object-contain rounded-full cursor-pointer shadow-sm shadow-gray-400"
+          />
+        ) : null}
+        <h4 className="text-center uppercase">{title}</h4>
+      </div>
       <div className="flex flex-wrap justify-center items-center space-x-2 md:w-2/3 w-full p-5 mx-auto">
         {Array(5)
           .fill()
@@ -34,7 +44,7 @@ const Card = ({ id }) => (
       <img className="h-56 w-56 object-cover" src={game} alt="Game" />
       <h4 className="text-lg font-bold">Virtual Land</h4>
     </Link>
-    
+
     <div className="flex justify-between items-center w-full">
       <div className="flex justify-start items-center">
         <FaEthereum size={15} />
