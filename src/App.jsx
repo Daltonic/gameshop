@@ -9,6 +9,7 @@ import Chat from './views/Chat'
 import CreateProduct from './components/CreateProduct'
 import Menu from './components/Menu'
 import Seller from './views/Seller'
+import Recent from './views/Recent'
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/product/:id" element={<Product />} />
         <Route path="/orders/" element={<Orders />} />
         <Route path="/chat/:id" element={<Chat />} />
+        <Route path="/recents" element={<Recent />} />
         <Route path="/seller/:id" element={<Seller />} />
       </Routes>
       <AddButton />

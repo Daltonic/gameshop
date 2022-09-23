@@ -2,8 +2,10 @@ import { FaEthereum } from 'react-icons/fa'
 
 const Summary = () => {
   return (
-    <div className="flex flex-col md:flex-row justify-center md:justify-between
-      items-center flex-wrap space-x-2 md:w-2/3 w-full p-5 mx-auto">
+    <div
+      className="flex flex-col md:flex-row justify-center md:justify-between
+      items-center flex-wrap space-x-2 md:w-2/3 w-full p-5 mx-auto"
+    >
       <div className="w-4/5 md:w-2/5 my-2">
         <div className="mb-3">
           <label className="form-label inline-block mb-2 font-bold text-sm text-gray-700">
@@ -53,7 +55,9 @@ const Summary = () => {
 
       <div className="w-4/5 md:w-2/5 my-2">
         <div className="mb-3">
-          <h4 className="mb-2 font-bold text-sm text-gray-700">Order Summary</h4>
+          <h4 className="mb-2 font-bold text-sm text-gray-700">
+            Order Summary
+          </h4>
         </div>
 
         <div className="flex justify-between items-center mb-3">
@@ -95,7 +99,7 @@ const Summary = () => {
         </div>
 
         <div className="flex justify-between items-center mb-3">
-        <button
+          <button
             className="px-6 py-2.5 bg-transparent border-blue-800 text-blue-800 font-medium text-xs 
             leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg border
             focus:border-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:border-blue-900 
