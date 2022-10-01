@@ -1,11 +1,13 @@
+import Identicon from 'react-identicons'
+import { FaEthereum } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
-import { FaEthereum } from 'react-icons/fa'
-import Identicon from 'react-identicons'
-import { setGlobalState } from '../store'
+import { setGlobalState, truncate, useGlobalState } from '../store'
+import { connectWallet } from '../BlockchainService'
 
 const Header = () => {
   const navigate = useNavigate()
+  const [connectedAccount] = useGlobalState('connectedAccount')
 
   return (
     <div className="flex justify-between items-center shadow-sm shadow-gray-200 p-5">
@@ -45,15 +47,26 @@ const Header = () => {
             />
           </button>
         </div>
-
-        <button
-          className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
-          leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg
-          focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-900 
-          active:shadow-lg transition duration-150 ease-in-out"
-        >
-          Connect
-        </button>
+        {connectedAccount ? (
+          <button
+            className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
+            leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg
+            focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-900 
+            active:shadow-lg transition duration-150 ease-in-out"
+          >
+            {truncate(connectedAccount, 4, 4, 11)}
+          </button>
+        ) : (
+          <button
+            className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
+            leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg
+            focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-900 
+            active:shadow-lg transition duration-150 ease-in-out"
+            onClick={connectWallet}
+          >
+            Connect
+          </button>
+        )}
       </div>
     </div>
   )

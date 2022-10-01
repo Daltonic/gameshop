@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+import { isWallectConnected } from './BlockchainService'
 import { Route, Routes } from 'react-router-dom'
 import Header from './components/Header'
 import AddButton from './components/AddButton'
@@ -13,10 +15,14 @@ import Recent from './views/Recent'
 import Stats from './views/Stats'
 
 const App = () => {
+  useEffect(async () => {
+    await isWallectConnected().then(() => console.log('Blockchain Loaded'))
+  }, [])
+
   return (
     <div className="min-h-screen">
       <Header />
-      
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<ShoppingCart />} />

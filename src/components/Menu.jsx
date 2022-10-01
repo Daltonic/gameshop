@@ -30,7 +30,7 @@ const Menu = () => {
             </button>
           </div>
 
-          <div class="flex justify-start mt-4">
+          <div className="flex justify-start mt-4">
             <button
               type="button"
               data-mdb-ripple="true"
@@ -45,7 +45,7 @@ const Menu = () => {
             </button>
           </div>
 
-          <div class="flex justify-start mt-4">
+          <div className="flex justify-start mt-4">
             <button
               type="button"
               data-mdb-ripple="true"
@@ -60,7 +60,7 @@ const Menu = () => {
             </button>
           </div>
 
-          <div class="flex justify-start mt-4">
+          <div className="flex justify-start mt-4">
             <button
               type="button"
               data-mdb-ripple="true"
@@ -75,7 +75,7 @@ const Menu = () => {
             </button>
           </div>
 
-          <div class="flex justify-start mt-4">
+          <div className="flex justify-start mt-4">
             <button
               type="button"
               data-mdb-ripple="true"
