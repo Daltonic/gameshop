@@ -6,7 +6,8 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   connectedAccount: '',
   contract: null,
   stats: null,
-  products: []
+  products: [],
+  product: null,
 })
 
 const truncate = (text, startChars, endChars, maxLength) => {

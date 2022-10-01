@@ -41,7 +41,7 @@ const Header = () => {
             className="bg-transparent shadow-sm shadow-gray-400 rounded-full"
           >
             <Identicon
-              string={'account'}
+              string={connectedAccount}
               size={25}
               className="h-10 w-10 object-contain rounded-full cursor-pointer"
             />

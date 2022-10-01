@@ -103,6 +103,19 @@ const loadProducts = async () => {
   }
 }
 
+const loadProduct = async (id) => {
+  try {
+    if (!ethereum) return alert('Please install Metamask')
+
+    const contract = getEtheriumContract()
+    const product = await contract.getProduct(id)
+
+    setGlobalState('product', structuredProducts([product])[0])
+  } catch (error) {
+    reportError(error)
+  }
+}
+
 const reportError = (error) => {
   console.log(error.message)
   throw new Error('No ethereum object.')
@@ -124,4 +137,10 @@ const structuredProducts = (products) =>
     }))
     .reverse()
 
-export { isWallectConnected, connectWallet, createProduct, loadProducts }
+export {
+  isWallectConnected,
+  connectWallet,
+  createProduct,
+  loadProducts,
+  loadProduct,
+}
