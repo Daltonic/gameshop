@@ -3,7 +3,7 @@ import Identicon from 'react-identicons'
 import { FaEthereum } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
-const Cards = ({ title, seller }) => {
+const Cards = ({ products, title, seller }) => {
   return (
     <>
       <div className="flex flex-col items-center space-y-4">
@@ -17,11 +17,9 @@ const Cards = ({ title, seller }) => {
         <h4 className="text-center uppercase">{title}</h4>
       </div>
       <div className="flex flex-wrap justify-center items-center space-x-2 md:w-2/3 w-full p-5 mx-auto">
-        {Array(5)
-          .fill()
-          .map((game, i) => (
-            <Card id={i} key={i} />
-          ))}
+        {products.map((product, i) => (
+          <Card product={product} key={i} />
+        ))}
       </div>
 
       <div className="flex justify-center items-center my-5">
@@ -38,20 +36,24 @@ const Cards = ({ title, seller }) => {
   )
 }
 
-const Card = ({ id }) => (
+const Card = ({ product }) => (
   <div className="flex flex-col justify-center items-start space-y-2 my-5">
-    <Link to={'/product/' + id}>
-      <img className="h-56 w-56 object-cover" src={game} alt="Game" />
-      <h4 className="text-lg font-bold">Virtual Land</h4>
+    <Link to={'/product/' + product.id}>
+      <img
+        className="h-56 w-56 object-cover"
+        src={product.imageURL}
+        alt={product.name}
+      />
+      <h4 className="text-lg font-bold">{product.name}</h4>
     </Link>
 
     <div className="flex justify-between items-center w-full">
       <div className="flex justify-start items-center">
         <FaEthereum size={15} />
-        <span className="font-semibold">2.5</span>
+        <span className="font-semibold">{product.price}</span>
       </div>
 
-      <span className="text-sm text-gray-500">6 in stock</span>
+      <span className="text-sm text-gray-500">{product.stock} in stock</span>
     </div>
   </div>
 )

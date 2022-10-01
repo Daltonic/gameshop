@@ -7,7 +7,7 @@ const Seller = () => {
   return (
     <>
       <div className="h-20"></div>
-      <Cards title="Seller Shop" seller={id} />
+      <Cards products={[]} title="Seller Shop" seller={id} />
     </>
   )
 }

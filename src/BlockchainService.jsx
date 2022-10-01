@@ -6,6 +6,7 @@ import { ethers } from 'ethers'
 const { ethereum } = window
 const contractAddress = address.address
 const contractAbi = abi.abi
+const fee = ethers.utils.parseEther('0.0004')
 
 const getEtheriumContract = () => {
   const connectedAccount = getGlobalState('connectedAccount')
@@ -56,21 +57,71 @@ const connectWallet = async () => {
   }
 }
 
+const createProduct = async ({
+  sku,
+  name,
+  description,
+  imageURL,
+  price,
+  stock,
+}) => {
+  try {
+    if (!ethereum) return alert('Please install Metamask')
+    const connectedAccount = getGlobalState('connectedAccount')
+    const contract = getEtheriumContract()
+    price = ethers.utils.parseEther(price)
+
+    await contract.createProduct(
+      sku,
+      name,
+      description,
+      imageURL,
+      price,
+      stock,
+      {
+        from: connectedAccount,
+        value: fee._hex,
+      },
+    )
+
+    window.location.reload()
+  } catch (error) {
+    reportError(error)
+  }
+}
+
+const loadProducts = async () => {
+  try {
+    if (!ethereum) return alert('Please install Metamask')
+
+    const contract = getEtheriumContract()
+    const products = await contract.getProducts()
+
+    setGlobalState('products', structuredProducts(products))
+  } catch (error) {
+    reportError(error)
+  }
+}
+
 const reportError = (error) => {
   console.log(error.message)
   throw new Error('No ethereum object.')
 }
 
-const structuredNfts = (nfts) =>
-  nfts
-    .map((nft) => ({
-      id: Number(nft.id),
-      url: opensea_uri + nft.id,
-      buyer: nft.buyer,
-      imageURL: nft.imageURL,
-      cost: parseInt(nft.cost._hex) / 10 ** 18,
-      timestamp: new Date(nft.timestamp.toNumber()).getTime(),
+const structuredProducts = (products) =>
+  products
+    .map((product) => ({
+      id: Number(product.id),
+      sku: product.sku,
+      seller: product.seller,
+      name: product.name,
+      description: product.description,
+      imageURL: product.imageURL,
+      stock: Number(product.stock),
+      price: parseInt(product.price._hex) / 10 ** 18,
+      deleted: product.deleted,
+      timestamp: new Date(product.timestamp.toNumber()).getTime(),
     }))
     .reverse()
 
-export { isWallectConnected, connectWallet }
+export { isWallectConnected, connectWallet, createProduct, loadProducts }

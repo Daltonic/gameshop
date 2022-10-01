@@ -2,7 +2,7 @@ const { ethers } = require('hardhat')
 const fs = require('fs')
 
 async function main() {
-  const fee = 400000
+  const fee = ethers.utils.parseEther('0.0004')
   const Contract = await ethers.getContractFactory('Shop')
   const contract = await Contract.deploy(fee)
 

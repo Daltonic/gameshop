@@ -13,6 +13,7 @@ describe('Shop', () => {
   const id = 0
   let sku = 'RF301'
   let name = 'Game Console'
+  let imageURL = 'https://website.com.image.jpg'
   let description = 'Abandoned by their parents to die.'
   let price = toWei(0.005)
   let stock = 13
@@ -42,7 +43,7 @@ describe('Shop', () => {
 
   describe('Product', () => {
     beforeEach(async () => {
-      await contract.createProduct(sku, name, description, price, stock, {
+      await contract.createProduct(sku, name, description, imageURL, price, stock, {
         from: seller.address,
         value: fee,
       })
@@ -58,7 +59,7 @@ describe('Shop', () => {
       const newName = 'UPDATED title'
 
       expect(product.name).to.equal(name)
-      await contract.updateProduct(id, newName, description, price, stock, {
+      await contract.updateProduct(id, newName, description, imageURL, price, stock, {
         from: seller.address,
       })
 
@@ -82,7 +83,7 @@ describe('Shop', () => {
   describe('Order', () => {
     beforeEach(async () => {
       for (let i = 0; i < 2; i++) {
-        await contract.createProduct(sku, name, description, price, stock, {
+        await contract.createProduct(sku, name, description, imageURL, price, stock, {
           from: seller.address,
           value: fee,
         })

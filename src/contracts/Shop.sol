@@ -14,6 +14,7 @@ contract Shop {
         string sku;
         address seller;
         string name;
+        string imageURL;
         string description;
         uint price;
         uint timestamp;
@@ -24,6 +25,7 @@ contract Shop {
     struct OrderStruct {
         uint id;
         string sku;
+        string imageURL;
         address buyer;
         address seller;
         uint qty;
@@ -84,6 +86,7 @@ contract Shop {
         string memory sku,
         string memory name,
         string memory description,
+        string memory imageURL,
         uint price,
         uint stock
     ) public payable returns (bool) {
@@ -91,6 +94,7 @@ contract Shop {
         require(bytes(sku).length > 0, "sku cannot be empty");
         require(bytes(name).length > 0, "name cannot be empty");
         require(bytes(description).length > 0, "description cannot be empty");
+        require(bytes(imageURL).length > 0, "image URL cannot be empty");
         require(price > 0, "price cannot be zero");
         require(stock > 0, "stock cannot be zero");
 
@@ -102,6 +106,7 @@ contract Shop {
         product.sku = sku;
         product.seller = msg.sender;
         product.name = name;
+        product.imageURL = imageURL;
         product.description = description;
         product.price = price;
         product.stock = stock;
@@ -115,6 +120,7 @@ contract Shop {
         uint id,
         string memory name,
         string memory description,
+        string memory imageURL,
         uint price,
         uint stock
     ) public returns (bool) {
@@ -127,6 +133,7 @@ contract Shop {
         ProductStruct memory product;
         product.seller = msg.sender;
         product.name = name;
+        product.imageURL = imageURL;
         product.description = description;
         product.price = price;
         product.stock = stock;
@@ -174,6 +181,7 @@ contract Shop {
                 order.sku = products[ids[i]].sku;
                 order.buyer = msg.sender;
                 order.seller = products[ids[i]].seller;
+                order.imageURL = products[ids[i]].imageURL;
                 order.qty = qtys[i];
                 order.total = qtys[i] * products[ids[i]].price;
                 order.timestamp = block.timestamp;

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { isWallectConnected } from './BlockchainService'
+import { isWallectConnected, loadProducts } from './BlockchainService'
 import { Route, Routes } from 'react-router-dom'
 import Header from './components/Header'
 import AddButton from './components/AddButton'
@@ -17,6 +17,7 @@ import Stats from './views/Stats'
 const App = () => {
   useEffect(async () => {
     await isWallectConnected().then(() => console.log('Blockchain Loaded'))
+    await loadProducts()
   }, [])
 
   return (
