@@ -1,4 +1,3 @@
-import game from '../assets/game.jpg'
 import Identicon from 'react-identicons'
 import { FaEthereum } from 'react-icons/fa'
 import { useNavigate, Link } from 'react-router-dom'

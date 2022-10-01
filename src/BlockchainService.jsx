@@ -96,8 +96,10 @@ const loadProducts = async () => {
 
     const contract = getEtheriumContract()
     const products = await contract.getProducts()
+    const stats = await contract.stats()
 
     setGlobalState('products', structuredProducts(products))
+    setGlobalState('stats', structureStats(stats))
   } catch (error) {
     reportError(error)
   }
@@ -136,6 +138,14 @@ const structuredProducts = (products) =>
       timestamp: new Date(product.timestamp.toNumber()).getTime(),
     }))
     .reverse()
+
+const structureStats = (stats) => ({
+  balance: stats.balance.toNumber(),
+  orders: stats.orders.toNumber(),
+  products: stats.products.toNumber(),
+  sales: stats.sales.toNumber(),
+  sellers: stats.sellers.toNumber(),
+})
 
 export {
   isWallectConnected,

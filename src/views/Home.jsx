@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 
 const Home = () => {
   const [products] = useGlobalState('products')
+  const [stats] = useGlobalState('stats')
   const [loaded, setLoaded] = useState(false)
 
   useEffect(async () => {
@@ -17,7 +18,7 @@ const Home = () => {
   return loaded ? (
     <>
       <Banner />
-      <ShopStats />
+      <ShopStats stats={stats} />
       <div className="h-20"></div>
       <Cards products={products} title="Global Shop" />
     </>
