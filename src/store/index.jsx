@@ -26,7 +26,7 @@ const truncate = (text, startChars, endChars, maxLength) => {
 const addToCart = (product) => {
   const products = getGlobalState('cart')
   if (!products.includes(product)) {
-    setGlobalState('cart', [...products, product])
+    setGlobalState('cart', [...products, {...product, qty: 1}])
   }
 }
 
