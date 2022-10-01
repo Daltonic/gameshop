@@ -11,9 +11,19 @@ import Menu from './components/Menu'
 import Seller from './views/Seller'
 import Recent from './views/Recent'
 import Stats from './views/Stats'
+import { useEffect, useState } from 'react'
+import { isWallectConnected } from './BlockchainService'
 
 const App = () => {
-  return (
+  const [loaded, setLoaded] = useState(false)
+  useEffect(async () => {
+    await isWallectConnected().then(() => {
+      setLoaded(true)
+      console.log('Blockchain Loaded')
+    })
+  }, [])
+
+  return loaded ? (
     <div className="min-h-screen">
       <Header />
 
@@ -32,7 +42,7 @@ const App = () => {
       <CreateProduct />
       <Menu />
     </div>
-  )
+  ) : null
 }
 
 export default App

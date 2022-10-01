@@ -7,6 +7,7 @@ import { connectWallet } from '../BlockchainService'
 
 const Header = () => {
   const navigate = useNavigate()
+  const [cart] = useGlobalState('cart')
   const [connectedAccount] = useGlobalState('connectedAccount')
 
   return (
@@ -32,7 +33,7 @@ const Header = () => {
               className="rounded-full py-[2px] px-[10px] text-center font-bold
             bg-red-600 text-white ml-2"
             >
-              7
+              {cart.length}
             </span>
           </button>
 
