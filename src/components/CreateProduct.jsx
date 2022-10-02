@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
-import { createProduct } from '../BlockchainService'
+import { createProduct } from '../Blockchain.Service'
 import { setGlobalState, useGlobalState } from '../store'
 
 const CreateProduct = () => {

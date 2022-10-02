@@ -1,7 +1,8 @@
 import Identicon from 'react-identicons'
 import { FaEthereum } from 'react-icons/fa'
 import { useNavigate, Link } from 'react-router-dom'
-import { addToCart, truncate } from '../store'
+import { truncate } from '../store'
+import { addToCart } from '../Cart.Service'
 
 const Details = ({ product }) => {
   const navigate = useNavigate()

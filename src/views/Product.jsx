@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { loadProduct } from '../BlockchainService'
+import { loadProduct } from '../Blockchain.Service'
 import Buyers from '../components/Buyers'
 import Details from '../components/Details'
 import { useGlobalState } from '../store'

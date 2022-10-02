@@ -12,7 +12,7 @@ import Seller from './views/Seller'
 import Recent from './views/Recent'
 import Stats from './views/Stats'
 import { useEffect, useState } from 'react'
-import { isWallectConnected } from './BlockchainService'
+import { isWallectConnected } from './Blockchain.Service'
 
 const App = () => {
   const [loaded, setLoaded] = useState(false)

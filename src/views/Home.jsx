@@ -2,7 +2,7 @@ import Banner from '../components/Banner'
 import ShopStats from '../components/ShopStats'
 import Cards from '../components/Cards'
 import { useGlobalState } from '../store'
-import { loadProducts } from '../BlockchainService'
+import { loadProducts } from '../Blockchain.Service'
 import { useEffect, useState } from 'react'
 
 const Home = () => {

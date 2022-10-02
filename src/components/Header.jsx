@@ -3,7 +3,7 @@ import { FaEthereum } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { setGlobalState, truncate, useGlobalState } from '../store'
-import { connectWallet } from '../BlockchainService'
+import { connectWallet } from '../Blockchain.Service'
 
 const Header = () => {
   const navigate = useNavigate()

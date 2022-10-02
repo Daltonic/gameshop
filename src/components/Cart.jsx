@@ -48,15 +48,35 @@ const Cart = ({ cart }) => {
               </td>
 
               <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                <input
-                  type="number"
-                  className="text-base font-normal text-gray-700
-                border border-solid border-gray-300
-                rounded transition ease-in-out focus:text-gray-700
-                focus:border-blue-600 focus:outline-none w-[80px]"
-                  placeholder="Qty"
-                  value={product.qty}
-                />
+                <div
+                  className="inline-flex shadow-md hover:shadow-lg focus:shadow-lg"
+                  role="group"
+                >
+                  <button
+                    type="button"
+                    className="rounded-l inline-block px-4 py-1.5 bg-blue-600 text-white font-medium
+                      text-xs leading-tight uppercase hover:bg-blue-700 focus:bg-blue-700 focus:outline-none
+                      focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
+                  >
+                    -
+                  </button>
+                  <button
+                    type="button"
+                    className=" inline-block px-4 py-1.5 bg-transparent text-black font-medium
+                      text-xs leading-tight uppercase focus:outline-none
+                      focus:ring-0 transition duration-150 ease-in-out"
+                  >
+                    {product.qty}
+                  </button>
+                  <button
+                    type="button"
+                    className=" rounded-r inline-block px-4 py-1.5 bg-blue-600 text-white font-medium
+                      text-xs leading-tight uppercase hover:bg-blue-700 focus:bg-blue-700 focus:outline-none
+                      focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
+                  >
+                    +
+                  </button>
+                </div>
               </td>
 
               <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
