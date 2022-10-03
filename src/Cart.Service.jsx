@@ -2,8 +2,9 @@ import { getGlobalState, setGlobalState } from './store'
 
 const addToCart = (product) => {
   const products = getGlobalState('cart')
-  if (!products.includes(product)) {
+  if (!products.find((p) => product.id == p.id)) {
     setGlobalState('cart', [...products, { ...product, qty: 1 }])
+    localStorage.setItem('cart', JSON.stringify([...products, { ...product, qty: 1 }]))
     summarizeCart()
   }
 }
@@ -12,6 +13,7 @@ const remFromCart = (product) => {
   let products = getGlobalState('cart')
   products = products.filter((p) => p.id != product.id)
   setGlobalState('cart', products)
+  localStorage.setItem('cart', JSON.stringify(products))
   summarizeCart()
 }
 
@@ -21,6 +23,7 @@ const updateCart = (product) => {
     if (p.id == product.id) p = product
   })
   setGlobalState('cart', products)
+  localStorage.setItem('cart', JSON.stringify(products))
   summarizeCart()
 }
 
@@ -41,4 +44,12 @@ const summarizeCart = () => {
   setGlobalState('summary', summary)
 }
 
-export { addToCart, remFromCart, updateCart, summarizeCart }
+const checkStorage = () => {
+  let products = JSON.parse(localStorage.getItem('cart'))
+  if (products?.length) {
+    setGlobalState('cart', JSON.parse(localStorage.getItem('cart')))
+    summarizeCart()
+  }
+}
+
+export { addToCart, remFromCart, updateCart, checkStorage }

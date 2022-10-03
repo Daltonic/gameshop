@@ -16,8 +16,12 @@ const Cart = ({ cart, summary }) => {
   }
 
   const decrease = (product) => {
-    product.qty--
-    updateCart(product)
+    if (product.qty == 1) {
+      remFromCart(product)
+    } else {
+      product.qty--
+      updateCart(product)
+    }
     setCartItems(cart)
     setProcess(!process)
   }

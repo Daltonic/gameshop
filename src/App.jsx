@@ -13,11 +13,13 @@ import Recent from './views/Recent'
 import Stats from './views/Stats'
 import { useEffect, useState } from 'react'
 import { isWallectConnected } from './Blockchain.Service'
+import { checkStorage } from './Cart.Service'
 
 const App = () => {
   const [loaded, setLoaded] = useState(false)
   useEffect(async () => {
     await isWallectConnected().then(() => {
+      checkStorage()
       setLoaded(true)
       console.log('Blockchain Loaded')
     })
