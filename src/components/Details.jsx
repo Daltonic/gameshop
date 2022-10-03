@@ -12,7 +12,7 @@ const Details = ({ product }) => {
       items-center lg:space-x-10 md:w-2/3 w-full p-5 mx-auto"
     >
       <img
-        className="w-full lg:w-2/5 mb-5 lg:mb-0"
+        className="w-1/3 lg:w-2/5 mb-5 lg:mb-0"
         src={product.imageURL}
         alt={product.name}
       />

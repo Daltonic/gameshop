@@ -1,6 +1,6 @@
 import { FaEthereum } from 'react-icons/fa'
 
-const Summary = () => {
+const Summary = ({ summary }) => {
   return (
     <div
       className="flex flex-col md:flex-row justify-center md:justify-between
@@ -65,7 +65,7 @@ const Summary = () => {
 
           <small className="flex justify-start items-center space-x-1">
             <FaEthereum />
-            <span className="text-gray-700">0.34 EHT</span>
+            <span className="text-gray-700">{summary.total.toFixed(3)} EHT</span>
           </small>
         </div>
 
@@ -74,7 +74,7 @@ const Summary = () => {
 
           <small className="flex justify-start items-center space-x-1">
             <FaEthereum />
-            <span className="text-gray-700">0.002 EHT</span>
+            <span className="text-gray-700">{summary.tax.toFixed(3)} EHT</span>
           </small>
         </div>
 
@@ -83,7 +83,7 @@ const Summary = () => {
 
           <small className="flex justify-start items-center space-x-1">
             <FaEthereum />
-            <span className="text-gray-700 font-bold">0.342 EHT</span>
+            <span className="text-gray-700 font-bold">{summary.grand.toFixed(3)} EHT</span>
           </small>
         </div>
 

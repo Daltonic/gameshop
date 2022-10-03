@@ -9,6 +9,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   products: [],
   product: null,
   cart: [],
+  summary: { total: 0, grand: 0, tax: 0, qtys: [], ids: [] },
 })
 
 const truncate = (text, startChars, endChars, maxLength) => {
@@ -23,11 +24,4 @@ const truncate = (text, startChars, endChars, maxLength) => {
   return text
 }
 
-
-
-export {
-  useGlobalState,
-  setGlobalState,
-  getGlobalState,
-  truncate,
-}
+export { useGlobalState, setGlobalState, getGlobalState, truncate }
