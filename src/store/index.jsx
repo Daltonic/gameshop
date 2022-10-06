@@ -7,6 +7,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   contract: null,
   stats: null,
   orders: [],
+  sales: [],
   products: [],
   product: null,
   cart: [],

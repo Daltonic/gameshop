@@ -44,6 +44,21 @@ const Menu = () => {
               Order History
             </button>
           </div>
+          
+          <div className="flex justify-start mt-4">
+            <button
+              type="button"
+              data-mdb-ripple="true"
+              data-mdb-ripple-color="light"
+              className="px-6 py-2.5 bg-white text-black font-medium text-xs leading-tight
+                uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700
+                focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 hover:text-white
+                active:shadow-lg transition duration-150 ease-in-out w-full text-left"
+              onClick={() => navTo('/sales')}
+            >
+              Sales History
+            </button>
+          </div>
 
           <div className="flex justify-start mt-4">
             <button

@@ -3,17 +3,18 @@ import { loadOrders } from "../Blockchain.Service"
 import { useGlobalState } from "../store"
 import Order from "../components/Order"
 
-const Orders = () => {
-  const [orders] = useGlobalState('orders')
+const Sales = () => {
+  const [sales] = useGlobalState('sales')
+
   useEffect(async () => {
     await loadOrders()
   }, [])
 
   return (
     <>
-      <Order orders={orders} title="Orderss" />
+      <Order orders={sales} title={'Sales'} />
     </>
   )
 }
 
-export default Orders
+export default Sales

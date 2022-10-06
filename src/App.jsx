@@ -1,4 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { isWallectConnected } from './Blockchain.Service'
+import { checkStorage } from './Cart.Service'
 import Header from './components/Header'
 import AddButton from './components/AddButton'
 import ShoppingCart from './views/ShoppingCart'
@@ -11,9 +14,7 @@ import Menu from './components/Menu'
 import Seller from './views/Seller'
 import Recent from './views/Recent'
 import Stats from './views/Stats'
-import { useEffect, useState } from 'react'
-import { isWallectConnected } from './Blockchain.Service'
-import { checkStorage } from './Cart.Service'
+import Sales from './views/Sales'
 
 const App = () => {
   const [loaded, setLoaded] = useState(false)
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/cart" element={<ShoppingCart />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/orders/" element={<Orders />} />
+        <Route path="/sales/" element={<Sales />} />
         <Route path="/chat/:id" element={<Chat />} />
         <Route path="/recents" element={<Recent />} />
         <Route path="/seller/:id" element={<Seller />} />

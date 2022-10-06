@@ -1,14 +1,11 @@
-import game from '../assets/game.jpg'
 import { Link } from 'react-router-dom'
 import { FaEthereum } from 'react-icons/fa'
-import { useGlobalState } from '../store'
 
-const Order = () => {
-  const [orders] = useGlobalState('orders')
+const Order = ({ orders, title }) => {
 
   return (
     <div className="flex flex-col justify-between items-center space-x-2 md:w-2/3 w-full p-5 mx-auto">
-      <h4 className="text-center uppercase mb-8">Orders</h4>
+      <h4 className="text-center uppercase mb-8">{title}</h4>
 
       <table className="min-w-full hidden md:table">
         <thead className="border-b">

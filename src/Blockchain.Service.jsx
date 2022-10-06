@@ -128,7 +128,9 @@ const loadOrders = async () => {
     const connectedAccount = getGlobalState('connectedAccount')
 
     const orders = await contract.getOrders({ from: connectedAccount })
+    const sales = await contract.getSales({ from: connectedAccount })
     setGlobalState('orders', structuredOrders(orders))
+    setGlobalState('sales', structuredOrders(sales))
   } catch (error) {
     reportError(error)
   }
