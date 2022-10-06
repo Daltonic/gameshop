@@ -192,6 +192,14 @@ contract Shop {
 
                 purchaseOf[order.buyer].push(order);
                 salesOf[order.seller].push(order);
+                buyersOf[ids[i]].push(
+                    BuyerStruct(
+                        order.buyer,
+                        order.total / order.qty,
+                        order.qty,
+                        block.timestamp
+                    )
+                );
 
                 emit Sale(
                     order.id,
@@ -292,6 +300,11 @@ contract Shop {
 
     function getSales() public view returns (OrderStruct[] memory) {
         return salesOf[msg.sender];
+    }
+
+    function getBuyers(uint id) public view returns (BuyerStruct[] memory buyers) {
+        require(productExist[id], "Product does not exist");
+        return buyersOf[id];
     }
 
     function payTo(address to, uint256 amount) internal {

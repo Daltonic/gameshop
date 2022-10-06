@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { loadProduct } from '../Blockchain.Service'
+import { useGlobalState } from '../store'
 import Buyers from '../components/Buyers'
 import Details from '../components/Details'
-import { useGlobalState } from '../store'
 
 const Product = () => {
   const { id } = useParams()

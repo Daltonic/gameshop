@@ -121,6 +121,19 @@ const loadProducts = async () => {
   }
 }
 
+const loadProduct = async (id) => {
+  try {
+    if (!ethereum) return alert('Please install Metamask')
+
+    const contract = getEtheriumContract()
+    const product = await contract.getProduct(id)
+
+    setGlobalState('product', structuredProducts([product])[0])
+  } catch (error) {
+    reportError(error)
+  }
+}
+
 const loadOrders = async () => {
   try {
     if (!ethereum) return alert('Please install Metamask')
@@ -131,19 +144,6 @@ const loadOrders = async () => {
     const sales = await contract.getSales({ from: connectedAccount })
     setGlobalState('orders', structuredOrders(orders))
     setGlobalState('sales', structuredOrders(sales))
-  } catch (error) {
-    reportError(error)
-  }
-}
-
-const loadProduct = async (id) => {
-  try {
-    if (!ethereum) return alert('Please install Metamask')
-
-    const contract = getEtheriumContract()
-    const product = await contract.getProduct(id)
-
-    setGlobalState('product', structuredProducts([product])[0])
   } catch (error) {
     reportError(error)
   }

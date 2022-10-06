@@ -6,6 +6,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   connectedAccount: '',
   contract: null,
   stats: null,
+  buyers: [],
   orders: [],
   sales: [],
   products: [],

@@ -17,7 +17,7 @@ describe('Shop', () => {
   let description = 'Abandoned by their parents to die.'
   let price = toWei(0.005)
   let stock = 13
-  let fee = 400000
+  let fee = toWei(0.002)
 
   const ids = [0, 1]
   const qtys = [2, 3]
@@ -131,6 +131,11 @@ describe('Shop', () => {
         await contract.connect(buyer).cancelOrder(id)
         order = await contract.connect(buyer).getOrder(id)
         expect(order.status).to.equal(CANCELED)
+      })
+
+      it('Should confirm buyers of product', async () => {
+        const buyers = await contract.getBuyers(id)
+        expect(await buyers).to.have.lengthOf(1)
       })
     })
   })
