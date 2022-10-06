@@ -25,6 +25,7 @@ contract Shop {
     struct OrderStruct {
         uint id;
         string sku;
+        string name;
         string imageURL;
         address buyer;
         address seller;
@@ -181,6 +182,7 @@ contract Shop {
                 order.sku = products[ids[i]].sku;
                 order.buyer = msg.sender;
                 order.seller = products[ids[i]].seller;
+                order.name = products[ids[i]].name;
                 order.imageURL = products[ids[i]].imageURL;
                 order.qty = qtys[i];
                 order.total = qtys[i] * products[ids[i]].price;

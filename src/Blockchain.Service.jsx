@@ -6,7 +6,7 @@ import { ethers } from 'ethers'
 const { ethereum } = window
 const contractAddress = address.address
 const contractAbi = abi.abi
-const fee = ethers.utils.parseEther('0.0004')
+const fee = ethers.utils.parseEther('0.002')
 
 const getEtheriumContract = () => {
   const connectedAccount = getGlobalState('connectedAccount')
@@ -90,6 +90,22 @@ const createProduct = async ({
   }
 }
 
+const createOrder = async ({ ids, qtys, phone, destination, grand }) => {
+  try {
+    if (!ethereum) return alert('Please install Metamask')
+    const connectedAccount = getGlobalState('connectedAccount')
+    const contract = getEtheriumContract()
+    grand = ethers.utils.parseEther(grand.toString())
+
+    await contract.createOrder(ids, qtys, destination, phone, {
+      from: connectedAccount,
+      value: grand._hex,
+    })
+  } catch (error) {
+    reportError(error)
+  }
+}
+
 const loadProducts = async () => {
   try {
     if (!ethereum) return alert('Please install Metamask')
@@ -100,6 +116,19 @@ const loadProducts = async () => {
 
     setGlobalState('products', structuredProducts(products))
     setGlobalState('stats', structureStats(stats))
+  } catch (error) {
+    reportError(error)
+  }
+}
+
+const loadOrders = async () => {
+  try {
+    if (!ethereum) return alert('Please install Metamask')
+    const contract = getEtheriumContract()
+    const connectedAccount = getGlobalState('connectedAccount')
+
+    const orders = await contract.getOrders({ from: connectedAccount })
+    setGlobalState('orders', structuredOrders(orders))
   } catch (error) {
     reportError(error)
   }
@@ -139,6 +168,22 @@ const structuredProducts = (products) =>
     }))
     .reverse()
 
+const structuredOrders = (orders) =>
+  orders
+    .map((order) => ({
+      id: Number(order.id),
+      sku: order.sku,
+      seller: order.seller,
+      destination: order.destination,
+      phone: order.phone,
+      imageURL: order.imageURL,
+      qty: Number(order.qty),
+      status: Number(order.status),
+      total: parseInt(order.total._hex) / 10 ** 18,
+      timestamp: new Date(order.timestamp.toNumber()).getTime(),
+    }))
+    .reverse()
+
 const structureStats = (stats) => ({
   balance: stats.balance.toNumber(),
   orders: stats.orders.toNumber(),
@@ -153,4 +198,6 @@ export {
   createProduct,
   loadProducts,
   loadProduct,
+  createOrder,
+  loadOrders,
 }

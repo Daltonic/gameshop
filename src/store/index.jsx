@@ -6,6 +6,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   connectedAccount: '',
   contract: null,
   stats: null,
+  orders: [],
   products: [],
   product: null,
   cart: [],

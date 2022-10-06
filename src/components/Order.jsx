@@ -1,8 +1,11 @@
 import game from '../assets/game.jpg'
 import { Link } from 'react-router-dom'
 import { FaEthereum } from 'react-icons/fa'
+import { useGlobalState } from '../store'
 
 const Order = () => {
+  const [orders] = useGlobalState('orders')
+
   return (
     <div className="flex flex-col justify-between items-center space-x-2 md:w-2/3 w-full p-5 mx-auto">
       <h4 className="text-center uppercase mb-8">Orders</h4>
@@ -31,9 +34,7 @@ const Order = () => {
           </tr>
         </thead>
         <tbody>
-          {Array(5)
-            .fill()
-            .map((order, i) => (
+          {orders.map((order, i) => (
               <tr
                 key={i}
                 className="border-b border-gray-200 transition duration-300 ease-in-out"
@@ -43,20 +44,20 @@ const Order = () => {
                 </td>
 
                 <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                  <Link to={'/product/' + i}>
-                    <img className="w-20" src={game} alt="game" />
+                  <Link to={'/product/' + order.id}>
+                    <img className="w-20" src={order.imageURL} alt="game" />
                     <small className="font-bold">Virtual Land</small>
                   </Link>
                 </td>
 
                 <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                  <span className="text-gray-700 font-bold">2</span>
+                  <span className="text-gray-700 font-bold">{order.qty}</span>
                 </td>
 
                 <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
                   <small className="flex justify-start items-center space-x-1">
                     <FaEthereum />
-                    <span className="text-gray-700 font-bold">0.34 EHT</span>
+                    <span className="text-gray-700 font-bold">{order.total / order.qty} EHT</span>
                   </small>
                 </td>
 
@@ -72,7 +73,7 @@ const Order = () => {
                 <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
                   <small className="flex justify-start items-center space-x-1">
                     <FaEthereum />
-                    <span className="text-gray-700 font-bold">0.68 EHT</span>
+                    <span className="text-gray-700 font-bold">{order.total} EHT</span>
                   </small>
                 </td>
               </tr>
@@ -81,9 +82,7 @@ const Order = () => {
       </table>
 
       <div className="flex flex-col justify-center items-center w-full md:hidden">
-        {Array(5)
-          .fill()
-          .map((order, i) => (
+        {orders.map((order, i) => (
             <div
               key={i}
               className="flex flex-col justify-center items-center  my-4
@@ -95,8 +94,8 @@ const Order = () => {
                 </span>
               </div>
 
-              <Link to={'/product/' + i} className="flex flex-col justify-center items-center space-y-2 text-sm font-light">
-                <img className="w-1/3 md:w-2/3" src={game} alt="game" />
+              <Link to={'/product/' + order.id} className="flex flex-col justify-center items-center space-y-2 text-sm font-light">
+                <img className="w-1/3 md:w-2/3" src={order.imageURL} alt="game" />
                 <small className="font-bold">Virtual Land</small>
               </Link>
 
@@ -104,7 +103,7 @@ const Order = () => {
                 <small className="flex justify-start items-center space-x-1">
                   <FaEthereum />
                   <span className="text-gray-700 font-bold">
-                    2 x 0.34 EHT = 0.68 EHT
+                  {order.qty} x {order.total / order.qty} EHT = {order.total} EHT
                   </span>
                 </small>
               </div>
