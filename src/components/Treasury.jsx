@@ -1,12 +1,12 @@
-const Treasury = () => {
+const Treasury = ({ stats }) => {
   return (
     <div className="flex flex-col sm:flex-row justify-center items-center p-5">
       <div className="flex flex-col justify-center items-center h-20 border border-gray-200 shadow-md w-full">
-        <span className="text-lg font-bold text-black leading-5">12.8 ETH</span>
+        <span className="text-lg font-bold text-black leading-5">{0} ETH</span>
         <span>Paid</span>
       </div>
       <div className="flex flex-col justify-center items-center h-20 border border-gray-200 shadow-md w-full">
-        <span className="text-lg font-bold text-black leading-5">1.37 ETH</span>
+        <span className="text-lg font-bold text-black leading-5">{stats.balance} ETH</span>
         <span>Balance</span>
       </div>
       <div className="flex justify-center items-center h-20 space-x-2 border border-gray-200 shadow-md w-full">

@@ -110,12 +110,15 @@ const loadProducts = async () => {
   try {
     if (!ethereum) return alert('Please install Metamask')
 
+    const connectedAccount = getGlobalState('connectedAccount')
     const contract = getEtheriumContract()
     const products = await contract.getProducts()
     const stats = await contract.stats()
+    const myStats = await contract.statsOf(connectedAccount)
 
     setGlobalState('products', structuredProducts(products))
     setGlobalState('stats', structureStats(stats))
+    setGlobalState('myStats', structureStats(myStats))
   } catch (error) {
     reportError(error)
   }
@@ -146,6 +149,20 @@ const loadOrders = async () => {
     const sales = await contract.getSales({ from: connectedAccount })
     setGlobalState('orders', structuredOrders(orders))
     setGlobalState('sales', structuredOrders(sales))
+  } catch (error) {
+    reportError(error)
+  }
+}
+
+const loadStats = async () => {
+  try {
+    if (!ethereum) return alert('Please install Metamask')
+
+    const connectedAccount = getGlobalState('connectedAccount')
+    const contract = getEtheriumContract()
+    const myStats = await contract.statsOf(connectedAccount)
+
+    setGlobalState('myStats', structureStats(myStats))
   } catch (error) {
     reportError(error)
   }
@@ -204,6 +221,7 @@ const structureStats = (stats) => ({
   orders: Number(stats.orders),
   products: Number(stats.products),
   sales: Number(stats.sales),
+  paid: Number(stats.paid._hex),
   sellers: Number(stats.sellers),
 })
 
@@ -215,4 +233,5 @@ export {
   loadProduct,
   createOrder,
   loadOrders,
+  loadStats,
 }

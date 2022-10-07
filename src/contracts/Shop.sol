@@ -65,7 +65,7 @@ contract Shop {
     mapping(address => ProductStruct[]) productsOf;
     mapping(address => OrderStruct[]) purchaseOf;
     mapping(address => OrderStruct[]) salesOf;
-    mapping(address => ShopStats) statsOf;
+    mapping(address => ShopStats) public statsOf;
     mapping(uint => BuyerStruct[]) buyersOf;
     mapping(uint => bool) productExist;
     mapping(address => mapping(uint => bool)) ordersExist;
@@ -101,6 +101,7 @@ contract Shop {
 
         productExist[stats.products] = true;
         statsOf[msg.sender].products++;
+        stats.sellers++;
         ProductStruct memory product;
 
         product.id = stats.products++;
@@ -238,6 +239,7 @@ contract Shop {
                     );
 
                     stats.balance -= salesOf[msg.sender][i].total;
+                    statsOf[msg.sender].paid += salesOf[msg.sender][i].total;
                     statsOf[msg.sender].sales++;
                     stats.sales++;
 
