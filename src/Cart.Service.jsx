@@ -4,7 +4,10 @@ const addToCart = (product) => {
   const products = getGlobalState('cart')
   if (!products.find((p) => product.id == p.id)) {
     setGlobalState('cart', [...products, { ...product, qty: 1 }])
-    localStorage.setItem('cart', JSON.stringify([...products, { ...product, qty: 1 }]))
+    localStorage.setItem(
+      'cart',
+      JSON.stringify([...products, { ...product, qty: 1 }]),
+    )
     summarizeCart()
   }
 }
@@ -24,6 +27,12 @@ const updateCart = (product) => {
   })
   setGlobalState('cart', products)
   localStorage.setItem('cart', JSON.stringify(products))
+  summarizeCart()
+}
+
+const clearCart = () => {
+  setGlobalState('cart', [])
+  localStorage.removeItem('cart')
   summarizeCart()
 }
 
@@ -52,4 +61,4 @@ const checkStorage = () => {
   }
 }
 
-export { addToCart, remFromCart, updateCart, checkStorage }
+export { addToCart, remFromCart, updateCart, checkStorage, clearCart }

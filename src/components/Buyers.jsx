@@ -1,7 +1,8 @@
-import { FaEthereum } from "react-icons/fa"
+import { FaEthereum } from 'react-icons/fa'
 import Identicon from 'react-identicons'
+import { truncate } from '../store'
 
-const Buyers = () => {
+const Buyers = ({ buyers }) => {
   return (
     <div className="flex justify-center flex-col items-start w-full md:w-2/3 p-5 mx-auto">
       <div className="max-h-[calc(100vh_-_20rem)] overflow-y-auto shadow-md rounded-md w-full">
@@ -35,31 +36,34 @@ const Buyers = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b border-gray-200 transition duration-300 ease-in-out">
-              <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                <div className="flex flex-row justify-start items-center space-x-3">
-                  <Identicon
-                    string={'buyer'}
-                    size={25}
-                    className="h-10 w-10 object-contain rounded-full mr-3"
-                  />
-                  <small className="font-bold">0xd1...3ea</small>
-                </div>
-              </td>
-              <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                <small className="flex justify-start items-center space-x-1">
-                  <FaEthereum />
-                  <span className="text-gray-700 font-bold">0.34 EHT</span>
-                </small>
-              </td>
+            {buyers.length < 1 ? <p className='p-5'>No buyers yet for this product.</p> : null}
+            {buyers.map((buyer, i) => (
+              <tr key={i} className="border-b border-gray-200 transition duration-300 ease-in-out">
+                <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
+                  <div className="flex flex-row justify-start items-center space-x-3">
+                    <Identicon
+                      string={buyer.buyer}
+                      size={25}
+                      className="h-10 w-10 object-contain rounded-full mr-3"
+                    />
+                    <small className="font-bold">{truncate(buyer.buyer, 4,4,11)}</small>
+                  </div>
+                </td>
+                <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
+                  <small className="flex justify-start items-center space-x-1">
+                    <FaEthereum />
+                    <span className="text-gray-700 font-bold">{buyer.price} EHT</span>
+                  </small>
+                </td>
 
-              <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                <span className="text-gray-700 font-bold">3</span>
-              </td>
-              <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                12/6/2022
-              </td>
-            </tr>
+                <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
+                  <span className="text-gray-700 font-bold">{buyer.qty}</span>
+                </td>
+                <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
+                  {buyer.timestamp}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

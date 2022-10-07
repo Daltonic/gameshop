@@ -127,8 +127,10 @@ const loadProduct = async (id) => {
 
     const contract = getEtheriumContract()
     const product = await contract.getProduct(id)
+    const buyers = await contract.getBuyers(id)
 
     setGlobalState('product', structuredProducts([product])[0])
+    setGlobalState('buyers', structuredBuyers(buyers))
   } catch (error) {
     reportError(error)
   }
@@ -166,7 +168,7 @@ const structuredProducts = (products) =>
       stock: Number(product.stock),
       price: parseInt(product.price._hex) / 10 ** 18,
       deleted: product.deleted,
-      timestamp: new Date(product.timestamp.toNumber()).getTime(),
+      timestamp: new Date(product.timestamp).getTime(),
     }))
     .reverse()
 
@@ -174,6 +176,7 @@ const structuredOrders = (orders) =>
   orders
     .map((order) => ({
       id: Number(order.id),
+      name: order.name,
       sku: order.sku,
       seller: order.seller,
       destination: order.destination,
@@ -186,12 +189,22 @@ const structuredOrders = (orders) =>
     }))
     .reverse()
 
+const structuredBuyers = (buyers) =>
+  buyers
+    .map((buyer) => ({
+      buyer: buyer.buyer,
+      qty: Number(buyer.qty),
+      price: parseInt(buyer.price._hex) / 10 ** 18,
+      timestamp: new Date(buyer.timestamp.toNumber() * 1000).toDateString(),
+    }))
+    .reverse()
+
 const structureStats = (stats) => ({
-  balance: stats.balance.toNumber(),
-  orders: stats.orders.toNumber(),
-  products: stats.products.toNumber(),
-  sales: stats.sales.toNumber(),
-  sellers: stats.sellers.toNumber(),
+  balance: Number(stats.balance),
+  orders: Number(stats.orders),
+  products: Number(stats.products),
+  sales: Number(stats.sales),
+  sellers: Number(stats.sellers),
 })
 
 export {

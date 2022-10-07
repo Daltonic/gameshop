@@ -1,7 +1,7 @@
 import { FaEthereum } from 'react-icons/fa'
 import { useState } from 'react'
 import { createOrder } from '../Blockchain.Service'
-import { updateCart } from '../Cart.Service'
+import { clearCart } from '../Cart.Service'
 
 const Summary = ({ summary }) => {
   const [destination, setDestination] = useState('')
@@ -9,13 +9,14 @@ const Summary = ({ summary }) => {
 
   const handleCheckout = async (e) => {
     e.preventDefault()
-    if(!phone || !destination) return
-    
+    if (!phone || !destination) return
+
     const params = { phone, destination, ...summary }
-    await createOrder(params)
-    updateCart([])
-    onReset()
-    console.log('Order placed successfully')
+    await createOrder(params).then(() => {
+      console.log('Order placed successfully')
+      onReset()
+      clearCart()
+    })
   }
 
   const onReset = () => {
@@ -121,7 +122,7 @@ const Summary = ({ summary }) => {
           leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg
           focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-900 
           active:shadow-lg transition duration-150 ease-in-out w-full"
-          onClick={handleCheckout}
+            onClick={handleCheckout}
           >
             Place Order Now
           </button>

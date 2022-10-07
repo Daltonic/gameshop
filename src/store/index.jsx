@@ -5,7 +5,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   menu: 'scale-0',
   connectedAccount: '',
   contract: null,
-  stats: null,
+  stats: {balance: 0, product: 0, orders: 0, sellers: 0, sales: 0},
   buyers: [],
   orders: [],
   sales: [],

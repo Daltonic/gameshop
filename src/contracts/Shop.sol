@@ -175,6 +175,7 @@ contract Shop {
             if(productExist[ids[i]] && products[ids[i]].stock >= qtys[i]) {
                 products[ids[i]].stock -= qtys[i];
                 ordersExist[products[ids[i]].seller][statsOf[msg.sender].orders] = true;
+                stats.orders++;
                 statsOf[msg.sender].orders++;
 
                 OrderStruct memory order;
@@ -237,6 +238,8 @@ contract Shop {
                     );
 
                     stats.balance -= salesOf[msg.sender][i].total;
+                    statsOf[msg.sender].sales++;
+                    stats.sales++;
 
                     buyersOf[id].push(
                         BuyerStruct(

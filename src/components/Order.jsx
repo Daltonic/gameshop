@@ -43,7 +43,7 @@ const Order = ({ orders, title }) => {
                 <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
                   <Link to={'/product/' + order.id}>
                     <img className="w-20" src={order.imageURL} alt="game" />
-                    <small className="font-bold">Virtual Land</small>
+                    <small className="font-bold">{order.name}</small>
                   </Link>
                 </td>
 
@@ -93,7 +93,7 @@ const Order = ({ orders, title }) => {
 
               <Link to={'/product/' + order.id} className="flex flex-col justify-center items-center space-y-2 text-sm font-light">
                 <img className="w-1/3 md:w-2/3" src={order.imageURL} alt="game" />
-                <small className="font-bold">Virtual Land</small>
+                <small className="font-bold">{order.name}</small>
               </Link>
 
               <div className="text-sm font-light">

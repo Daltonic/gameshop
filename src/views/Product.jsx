@@ -8,6 +8,7 @@ import Details from '../components/Details'
 const Product = () => {
   const { id } = useParams()
   const [product] = useGlobalState('product')
+  const [buyers] = useGlobalState('buyers')
   const [loaded, setLoaded] = useState(false)
 
   useEffect(async () => {
@@ -17,7 +18,7 @@ const Product = () => {
   return loaded ? (
     <>
       <Details product={product} />
-      <Buyers />
+      <Buyers buyers={buyers} />
     </>
   ) : null
 }
