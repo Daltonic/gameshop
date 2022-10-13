@@ -24,6 +24,7 @@ contract Shop {
 
     struct OrderStruct {
         uint id;
+        uint pid;
         string sku;
         string name;
         string imageURL;
@@ -62,13 +63,13 @@ contract Shop {
     ShopStats public stats;
     uint public fee;
     ProductStruct[] products;
+    OrderStruct[] orders;
     mapping(address => ProductStruct[]) productsOf;
-    mapping(address => OrderStruct[]) purchaseOf;
-    mapping(address => OrderStruct[]) salesOf;
+    mapping(uint => OrderStruct[]) ordersOf;
     mapping(address => ShopStats) public statsOf;
     mapping(uint => BuyerStruct[]) buyersOf;
-    mapping(uint => bool) productExist;
-    mapping(address => mapping(uint => bool)) ordersExist;
+    mapping(uint => bool) public productExist;
+    mapping(uint => bool) public orderExist;
 
     event Sale(
         uint256 id,
@@ -175,12 +176,11 @@ contract Shop {
         for(uint i = 0; i < ids.length; i++) {
             if(productExist[ids[i]] && products[ids[i]].stock >= qtys[i]) {
                 products[ids[i]].stock -= qtys[i];
-                ordersExist[products[ids[i]].seller][statsOf[msg.sender].orders] = true;
-                stats.orders++;
                 statsOf[msg.sender].orders++;
 
                 OrderStruct memory order;
                 order.id = stats.orders++;
+                order.pid = products[ids[i]].id;
                 order.sku = products[ids[i]].sku;
                 order.buyer = msg.sender;
                 order.seller = products[ids[i]].seller;
@@ -192,8 +192,10 @@ contract Shop {
                 order.destination = destination;
                 order.phone = phone;
 
-                purchaseOf[order.buyer].push(order);
-                salesOf[order.seller].push(order);
+                ordersOf[order.pid].push(order);
+                orderExist[order.id] = true;
+                orders.push(order);
+                
                 buyersOf[ids[i]].push(
                     BuyerStruct(
                         order.buyer,
@@ -224,92 +226,61 @@ contract Shop {
         return total;
     }
 
-    function markOrderAs(uint id, OrderEnum status) public returns (bool) {
-        require(ordersExist[msg.sender][id], "Order not found");
+    function deliverOrder(uint pid, uint id) public returns (bool) {
+        require(orderExist[id], "Order not found");
+        OrderStruct memory order = ordersOf[pid][id];
+        require(order.seller == msg.sender, "Unauthorized Entity");
+        require(order.status != OrderEnum.DELEVIRED, "Order already delievered");
+        
+        order.status = OrderEnum.DELEVIRED;
+        ordersOf[pid][id] = order;
+        orders[id] = order;
 
-        for(uint i = 0; i < salesOf[msg.sender].length; i++) {
-            if(salesOf[msg.sender][i].id == id) {
-                salesOf[msg.sender][i].status = status;
-                purchaseOf[salesOf[msg.sender][i].buyer][i].status = status;
+        stats.balance -= order.total;
+        statsOf[order.seller].paid += order.total;
+        statsOf[order.seller].sales++;
+        stats.sales++;
 
-                if(status == OrderEnum.DELEVIRED) {
-                    payTo(
-                        salesOf[msg.sender][i].seller,
-                        salesOf[msg.sender][i].total
-                    );
+        payTo(order.seller, order.total);
 
-                    stats.balance -= salesOf[msg.sender][i].total;
-                    statsOf[msg.sender].paid += salesOf[msg.sender][i].total;
-                    statsOf[msg.sender].sales++;
-                    stats.sales++;
-
-                    buyersOf[id].push(
-                        BuyerStruct(
-                            salesOf[msg.sender][i].buyer,
-                            salesOf[msg.sender][i].total,
-                            salesOf[msg.sender][i].qty,
-                            block.timestamp
-                        )
-                    );
-                }
-            }
-        }
-
-        for(uint i = 0; i < purchaseOf[msg.sender].length; i++) {
-            if(purchaseOf[msg.sender][i].id == id) {
-                purchaseOf[msg.sender][i].status = status;
-            }else {
-                revert("Buyer: Order not found with provided Id");
-            }
-        }
-
+        buyersOf[id].push(
+            BuyerStruct(
+                order.buyer,
+                order.total,
+                order.qty,
+                block.timestamp
+            )
+        );
         return true;
     }
 
-    function cancelOrder(uint id) public returns (bool) {
-        require(productExist[id], "Product not found");
-        require(purchaseOf[msg.sender][id].buyer == msg.sender, "Unauthorized Personnel");
-        require(purchaseOf[msg.sender][id].status < OrderEnum.DELEVIRED, "Order delivered already!");
+    function cancelOrder(uint pid, uint id) public returns (bool) {
+        require(orderExist[id], "Order not found");
+        OrderStruct memory order = ordersOf[pid][id];
+        require(order.buyer == msg.sender, "Unauthorized Entity");
+        require(order.status != OrderEnum.CANCELED, "Order already canceled");
 
-        purchaseOf[msg.sender][id].status = OrderEnum.CANCELED;
-        salesOf[purchaseOf[msg.sender][id].seller][id].status = OrderEnum.CANCELED;
+        order.status = OrderEnum.CANCELED;
+        products[order.pid].stock += order.qty;
+        ordersOf[pid][id] = order;
+        orders[id] = order;
 
-        if(purchaseOf[msg.sender][id].status == OrderEnum.CANCELED) {
-            products[id].stock += purchaseOf[msg.sender][id].qty;
-            payTo(
-                purchaseOf[msg.sender][id].buyer,
-                purchaseOf[msg.sender][id].total
-            );
-        }
-
+        payTo(order.buyer, order.total);
         return true;
-    }
-
-    function getOrder(uint id) public view returns (OrderStruct memory order) {
-        for(uint i = 0; i < purchaseOf[msg.sender].length; i++) {
-            if(purchaseOf[msg.sender][i].id == id)
-                return purchaseOf[msg.sender][i];
-        }
     }
     
     function getOrders() public view returns (OrderStruct[] memory) {
-        return purchaseOf[msg.sender];
+        return orders;
     }
 
-    function getSale(uint id) public view returns (OrderStruct memory order) {
-        for(uint i = 0; i < salesOf[msg.sender].length; i++) {
-            if(salesOf[msg.sender][i].id == id)
-                return salesOf[msg.sender][i];
-        }
+    function getOrder(uint pid, uint id) public view returns (OrderStruct memory) {
+        require(orderExist[id], "Order not found");
+        return ordersOf[pid][id];
     }
 
-    function getSales() public view returns (OrderStruct[] memory) {
-        return salesOf[msg.sender];
-    }
-
-    function getBuyers(uint id) public view returns (BuyerStruct[] memory buyers) {
-        require(productExist[id], "Product does not exist");
-        return buyersOf[id];
+    function getBuyers(uint pid) public view returns (BuyerStruct[] memory buyers) {
+        require(productExist[pid], "Product does not exist");
+        return buyersOf[pid];
     }
 
     function payTo(address to, uint256 amount) internal {

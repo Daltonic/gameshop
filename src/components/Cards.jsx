@@ -37,7 +37,7 @@ const Cards = ({ products, title, seller }) => {
 }
 
 const Card = ({ product }) => (
-  <div className="flex flex-col justify-center items-start space-y-2 my-5">
+  <div className="flex flex-col justify-center items-start space-y-2 my-5 w-full sm:w-1/3">
     <Link to={'/product/' + product.id}>
       <img
         className="h-56 w-56 object-cover"

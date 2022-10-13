@@ -8,6 +8,11 @@ const contractAddress = address.address
 const contractAbi = abi.abi
 const fee = ethers.utils.parseEther('0.002')
 
+const PLACED = 0
+const DELEVIRED = 1
+const CANCELED = 2
+const REFUNDED = 3
+
 const getEtheriumContract = () => {
   const connectedAccount = getGlobalState('connectedAccount')
 
@@ -32,12 +37,12 @@ const isWallectConnected = async () => {
     })
 
     window.ethereum.on('accountsChanged', async () => {
-      setGlobalState('connectedAccount', accounts[0])
+      setGlobalState('connectedAccount', accounts[0].toLowerCase())
       await isWallectConnected()
     })
 
     if (accounts.length) {
-      setGlobalState('connectedAccount', accounts[0])
+      setGlobalState('connectedAccount', accounts[0].toLowerCase())
     } else {
       alert('Please connect wallet.')
       console.log('No accounts found.')
@@ -51,7 +56,7 @@ const connectWallet = async () => {
   try {
     if (!ethereum) return alert('Please install Metamask')
     const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
-    setGlobalState('connectedAccount', accounts[0])
+    setGlobalState('connectedAccount', accounts[0].toLowerCase())
   } catch (error) {
     reportError(error)
   }
@@ -143,12 +148,9 @@ const loadOrders = async () => {
   try {
     if (!ethereum) return alert('Please install Metamask')
     const contract = getEtheriumContract()
-    const connectedAccount = getGlobalState('connectedAccount')
 
-    const orders = await contract.getOrders({ from: connectedAccount })
-    const sales = await contract.getSales({ from: connectedAccount })
+    const orders = await contract.getOrders()
     setGlobalState('orders', structuredOrders(orders))
-    setGlobalState('sales', structuredOrders(sales))
   } catch (error) {
     reportError(error)
   }
@@ -168,6 +170,30 @@ const loadStats = async () => {
   }
 }
 
+const delieverOrder = async (pid, id) => {
+  try {
+    if (!ethereum) return alert('Please install Metamask')
+    const connectedAccount = getGlobalState('connectedAccount')
+    const contract = getEtheriumContract()
+    await contract.deliverOrder(pid, id, { from: connectedAccount })
+    window.location.reload()
+  } catch (error) {
+    reportError(error)
+  }
+}
+
+const cancelOrder = async (pid, id) => {
+  try {
+    if (!ethereum) return alert('Please install Metamask')
+    const connectedAccount = getGlobalState('connectedAccount')
+    const contract = getEtheriumContract()
+    await contract.cancelOrder(pid, id, { from: connectedAccount })
+    window.location.reload()
+  } catch (error) {
+    reportError(error)
+  }
+}
+
 const reportError = (error) => {
   console.log(error.message)
   throw new Error('No ethereum object.')
@@ -178,7 +204,7 @@ const structuredProducts = (products) =>
     .map((product) => ({
       id: Number(product.id),
       sku: product.sku,
-      seller: product.seller,
+      seller: product.seller.toLowerCase(),
       name: product.name,
       description: product.description,
       imageURL: product.imageURL,
@@ -195,7 +221,8 @@ const structuredOrders = (orders) =>
       id: Number(order.id),
       name: order.name,
       sku: order.sku,
-      seller: order.seller,
+      seller: order.seller.toLowerCase(),
+      buyer: order.buyer.toLowerCase(),
       destination: order.destination,
       phone: order.phone,
       imageURL: order.imageURL,
@@ -209,7 +236,7 @@ const structuredOrders = (orders) =>
 const structuredBuyers = (buyers) =>
   buyers
     .map((buyer) => ({
-      buyer: buyer.buyer,
+      buyer: buyer.buyer.toLowerCase(),
       qty: Number(buyer.qty),
       price: parseInt(buyer.price._hex) / 10 ** 18,
       timestamp: new Date(buyer.timestamp.toNumber() * 1000).toDateString(),
@@ -234,4 +261,6 @@ export {
   createOrder,
   loadOrders,
   loadStats,
+  delieverOrder,
+  cancelOrder,
 }

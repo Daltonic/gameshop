@@ -11,7 +11,7 @@ const Orders = () => {
 
   return (
     <>
-      <Order orders={orders} title="Orderss" />
+      <Order orders={orders} title="Orders" />
     </>
   )
 }

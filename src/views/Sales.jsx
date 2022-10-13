@@ -4,7 +4,7 @@ import { useGlobalState } from "../store"
 import Order from "../components/Order"
 
 const Sales = () => {
-  const [sales] = useGlobalState('sales')
+  const [orders] = useGlobalState('orders')
 
   useEffect(async () => {
     await loadOrders()
@@ -12,7 +12,7 @@ const Sales = () => {
 
   return (
     <>
-      <Order orders={sales} title={'Sales'} />
+      <Order orders={orders} title={'Sales'} seller />
     </>
   )
 }

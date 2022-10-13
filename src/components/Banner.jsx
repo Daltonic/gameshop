@@ -1,5 +1,4 @@
 import bannerImg from '../assets/banner.png'
-import { FaEthereum } from 'react-icons/fa'
 
 const Banner = () => {
   return (
@@ -25,12 +24,6 @@ const Banner = () => {
           >
             Spin Now
           </button>
-          <div className="flex justify-start items-center">
-            <span className='mr-1'>Upto</span>
-            <FaEthereum size={15} />
-            <span className="font-semibold">2.5</span>
-            <span className='ml-1'>to give away.</span>
-          </div>
         </div>
       </div>
     </div>

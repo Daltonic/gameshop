@@ -4,13 +4,14 @@ const toWei = (num) => ethers.utils.parseEther(num.toString())
 const fromWei = (num) => ethers.utils.formatEther(num)
 
 describe('Shop', () => {
-  let Contract, contract, seller, buyer, product, orders, order
+  let Contract, contract, seller, buyer, product, orders, order, stats
   const PLACED = 0
   const DELEVIRED = 1
   const CANCELED = 2
   const REFUNDED = 3
 
   const id = 0
+  const wrongId = 100
   let sku = 'RF301'
   let name = 'Game Console'
   let imageURL = 'https://website.com.image.jpg'
@@ -19,7 +20,7 @@ describe('Shop', () => {
   let stock = 13
   let fee = toWei(0.002)
 
-  const ids = [0, 1]
+  const ids = [0, 0]
   const qtys = [2, 3]
   const destination = 'Adageorge'
   const phone = '08156970922'
@@ -43,10 +44,18 @@ describe('Shop', () => {
 
   describe('Product', () => {
     beforeEach(async () => {
-      await contract.createProduct(sku, name, description, imageURL, price, stock, {
-        from: seller.address,
-        value: fee,
-      })
+      await contract.createProduct(
+        sku,
+        name,
+        description,
+        imageURL,
+        price,
+        stock,
+        {
+          from: seller.address,
+          value: fee,
+        },
+      )
     })
 
     it('Should confirm product creation', async () => {
@@ -59,9 +68,17 @@ describe('Shop', () => {
       const newName = 'UPDATED title'
 
       expect(product.name).to.equal(name)
-      await contract.updateProduct(id, newName, description, imageURL, price, stock, {
-        from: seller.address,
-      })
+      await contract.updateProduct(
+        id,
+        newName,
+        description,
+        imageURL,
+        price,
+        stock,
+        {
+          from: seller.address,
+        },
+      )
 
       product = await contract.getProduct(id)
       expect(product.name).to.equal(newName)
@@ -83,10 +100,18 @@ describe('Shop', () => {
   describe('Order', () => {
     beforeEach(async () => {
       for (let i = 0; i < 2; i++) {
-        await contract.createProduct(sku, name, description, imageURL, price, stock, {
-          from: seller.address,
-          value: fee,
-        })
+        await contract.createProduct(
+          sku,
+          name,
+          description,
+          imageURL,
+          price,
+          stock,
+          {
+            from: seller.address,
+            value: fee,
+          },
+        )
       }
     })
 
@@ -99,43 +124,32 @@ describe('Shop', () => {
           })
       })
 
-      it('Should confirm seller order placement', async () => {
-        orders = await contract.getSales({ from: seller.address })
-        expect(await orders).to.have.lengthOf(2)
-      })
-
-      it('Should confirm buyer order placement', async () => {
-        orders = await contract.connect(buyer).getOrders()
-        expect(await orders).to.have.lengthOf(2)
-      })
-
-      it('Should confirm seller order marked as delievered', async () => {
-        order = await contract.getSale(id, { from: seller.address })
+      it('Should confirm order placement', async () => {
+        orders = await contract.getOrders()
+        expect(orders).to.have.lengthOf(ids.length)
+        order = await contract.getOrder(id, id)
         expect(order.status).to.equal(PLACED)
-        await contract.markOrderAs(id, DELEVIRED, { from: seller.address })
-        order = await contract.getSale(id, { from: seller.address })
+        stats = await contract.statsOf(buyer.address)
+        expect(stats.orders).to.equal(qtys[0])
+      })
+
+      it('Should confirm order marked as delievered', async () => {
+        await contract.deliverOrder(id, id, { from: seller.address })
+        order = await contract.getOrder(id, id)
         expect(order.status).to.equal(DELEVIRED)
+        stats = await contract.statsOf(seller.address)
+        expect(stats.paid).to.equal(order.total)
       })
 
-      it('Should confirm buyer order marked as delievered', async () => {
-        order = await contract.connect(buyer).getOrder(id)
-        expect(order.status).to.equal(PLACED)
-        await contract.markOrderAs(id, DELEVIRED, { from: seller.address })
-        order = await contract.connect(buyer).getOrder(id)
-        expect(order.status).to.equal(DELEVIRED)
-      })
-
-      it('Should confirm buyer order marked as cancel', async () => {
-        order = await contract.connect(buyer).getOrder(id)
-        expect(order.status).to.equal(PLACED)
-        await contract.connect(buyer).cancelOrder(id)
-        order = await contract.connect(buyer).getOrder(id)
+      it('Should confirm order marked as cancel', async () => {
+        await contract.connect(buyer).cancelOrder(id, id)
+        order = await contract.getOrder(id, id)
         expect(order.status).to.equal(CANCELED)
       })
 
       it('Should confirm buyers of product', async () => {
         const buyers = await contract.getBuyers(id)
-        expect(await buyers).to.have.lengthOf(1)
+        expect(await buyers).to.have.lengthOf(2)
       })
     })
   })
