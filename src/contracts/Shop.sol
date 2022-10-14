@@ -23,8 +23,8 @@ contract Shop {
     }
 
     struct OrderStruct {
-        uint id;
         uint pid;
+        uint id;
         string sku;
         string name;
         string imageURL;
@@ -63,13 +63,12 @@ contract Shop {
     ShopStats public stats;
     uint public fee;
     ProductStruct[] products;
-    OrderStruct[] orders;
     mapping(address => ProductStruct[]) productsOf;
     mapping(uint => OrderStruct[]) ordersOf;
     mapping(address => ShopStats) public statsOf;
     mapping(uint => BuyerStruct[]) buyersOf;
     mapping(uint => bool) public productExist;
-    mapping(uint => bool) public orderExist;
+    mapping(uint => mapping(uint => bool)) public orderExist;
 
     event Sale(
         uint256 id,
@@ -174,13 +173,16 @@ contract Shop {
         stats.balance += totalCost(ids, qtys);
 
         for(uint i = 0; i < ids.length; i++) {
+            
             if(productExist[ids[i]] && products[ids[i]].stock >= qtys[i]) {
                 products[ids[i]].stock -= qtys[i];
                 statsOf[msg.sender].orders++;
+                stats.orders++;
 
                 OrderStruct memory order;
-                order.id = stats.orders++;
+
                 order.pid = products[ids[i]].id;
+                order.id = totalOrdersOf(order.pid); // order Id is where the problem lies now...
                 order.sku = products[ids[i]].sku;
                 order.buyer = msg.sender;
                 order.seller = products[ids[i]].seller;
@@ -193,8 +195,7 @@ contract Shop {
                 order.phone = phone;
 
                 ordersOf[order.pid].push(order);
-                orderExist[order.id] = true;
-                orders.push(order);
+                orderExist[order.pid][order.id] = true;
                 
                 buyersOf[ids[i]].push(
                     BuyerStruct(
@@ -218,6 +219,10 @@ contract Shop {
         return true;
     }
 
+    function totalOrdersOf(uint pid) public view returns (uint) {
+        return ordersOf[pid].length;
+    }
+
     function totalCost(uint[] memory ids, uint[] memory qtys) internal view returns (uint) {
         uint total;
         for(uint i = 0; i < ids.length; i++) {
@@ -227,14 +232,13 @@ contract Shop {
     }
 
     function deliverOrder(uint pid, uint id) public returns (bool) {
-        require(orderExist[id], "Order not found");
+        require(orderExist[pid][id], "Order not found");
         OrderStruct memory order = ordersOf[pid][id];
         require(order.seller == msg.sender, "Unauthorized Entity");
         require(order.status != OrderEnum.DELEVIRED, "Order already delievered");
         
         order.status = OrderEnum.DELEVIRED;
         ordersOf[pid][id] = order;
-        orders[id] = order;
 
         stats.balance -= order.total;
         statsOf[order.seller].paid += order.total;
@@ -255,7 +259,7 @@ contract Shop {
     }
 
     function cancelOrder(uint pid, uint id) public returns (bool) {
-        require(orderExist[id], "Order not found");
+        require(orderExist[pid][id], "Order not found");
         OrderStruct memory order = ordersOf[pid][id];
         require(order.buyer == msg.sender, "Unauthorized Entity");
         require(order.status != OrderEnum.CANCELED, "Order already canceled");
@@ -263,18 +267,23 @@ contract Shop {
         order.status = OrderEnum.CANCELED;
         products[order.pid].stock += order.qty;
         ordersOf[pid][id] = order;
-        orders[id] = order;
 
         payTo(order.buyer, order.total);
         return true;
     }
-    
-    function getOrders() public view returns (OrderStruct[] memory) {
-        return orders;
+
+    function getOrders() public view returns (OrderStruct[] memory props) {
+        props = new OrderStruct[](stats.orders);
+
+        for(uint i=0; i < stats.orders; i++) {
+            for(uint j=0; j < ordersOf[i].length; j++) {
+                props[i] = ordersOf[i][j];
+            }
+        }
     }
 
     function getOrder(uint pid, uint id) public view returns (OrderStruct memory) {
-        require(orderExist[id], "Order not found");
+        require(orderExist[pid][id], "Order not found");
         return ordersOf[pid][id];
     }
 

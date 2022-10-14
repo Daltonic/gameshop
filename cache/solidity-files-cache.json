@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/daltonic/Sites/dapps/react/gameshop/src/contracts/Shop.sol": {
-      "lastModificationDate": 1665603626173,
-      "contentHash": "a84c8c444a8704afac2f5a0a3cfac299",
+      "lastModificationDate": 1665769859793,
+      "contentHash": "bd8270d3a48888b2b6811add6ab0049b",
       "sourceName": "src/contracts/Shop.sol",
       "solcConfig": {
         "version": "0.8.11",

@@ -20,7 +20,7 @@ describe('Shop', () => {
   let stock = 13
   let fee = toWei(0.002)
 
-  const ids = [0, 0]
+  const ids = [0, 1]
   const qtys = [2, 3]
   const destination = 'Adageorge'
   const phone = '08156970922'
@@ -99,7 +99,7 @@ describe('Shop', () => {
 
   describe('Order', () => {
     beforeEach(async () => {
-      for (let i = 0; i < 2; i++) {
+      for (let i = 0; i < ids.length; i++) {
         await contract.createProduct(
           sku,
           name,
@@ -117,39 +117,41 @@ describe('Shop', () => {
 
     describe('Placing orders', () => {
       beforeEach(async () => {
-        await contract
-          .connect(buyer)
-          .createOrder(ids, qtys, destination, phone, {
-            value: toWei(1),
-          })
+        for (let i = 0; i < ids.length; i++) {
+          await contract
+            .connect(buyer)
+            .createOrder(ids, qtys, destination, phone, {
+              value: toWei(1),
+            })
+        }
       })
 
       it('Should confirm order placement', async () => {
         orders = await contract.getOrders()
-        expect(orders).to.have.lengthOf(ids.length)
-        order = await contract.getOrder(id, id)
+        expect(orders).to.have.lengthOf(4)
+        order = await contract.getOrder(id + 1, id + 1)
         expect(order.status).to.equal(PLACED)
         stats = await contract.statsOf(buyer.address)
-        expect(stats.orders).to.equal(qtys[0])
+        expect(stats.orders).to.equal(4)
       })
 
       it('Should confirm order marked as delievered', async () => {
-        await contract.deliverOrder(id, id, { from: seller.address })
-        order = await contract.getOrder(id, id)
+        await contract.deliverOrder(id + 1, id + 1, { from: seller.address })
+        order = await contract.getOrder(id + 1, id + 1)
         expect(order.status).to.equal(DELEVIRED)
         stats = await contract.statsOf(seller.address)
         expect(stats.paid).to.equal(order.total)
       })
 
       it('Should confirm order marked as cancel', async () => {
-        await contract.connect(buyer).cancelOrder(id, id)
-        order = await contract.getOrder(id, id)
+        await contract.connect(buyer).cancelOrder(id + 1, id + 1)
+        order = await contract.getOrder(id + 1, id + 1)
         expect(order.status).to.equal(CANCELED)
       })
 
       it('Should confirm buyers of product', async () => {
         const buyers = await contract.getBuyers(id)
-        expect(await buyers).to.have.lengthOf(2)
+        expect(buyers).to.have.lengthOf(2)
       })
     })
   })

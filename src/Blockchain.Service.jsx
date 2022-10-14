@@ -8,11 +8,6 @@ const contractAddress = address.address
 const contractAbi = abi.abi
 const fee = ethers.utils.parseEther('0.002')
 
-const PLACED = 0
-const DELEVIRED = 1
-const CANCELED = 2
-const REFUNDED = 3
-
 const getEtheriumContract = () => {
   const connectedAccount = getGlobalState('connectedAccount')
 
@@ -218,6 +213,7 @@ const structuredProducts = (products) =>
 const structuredOrders = (orders) =>
   orders
     .map((order) => ({
+      pid: Number(order.pid),
       id: Number(order.id),
       name: order.name,
       sku: order.sku,
