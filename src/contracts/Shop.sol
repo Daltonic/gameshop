@@ -182,7 +182,7 @@ contract Shop {
                 OrderStruct memory order;
 
                 order.pid = products[ids[i]].id;
-                order.id = totalOrdersOf(order.pid); // order Id is where the problem lies now...
+                order.id = ordersOf[order.pid].length; // order Id resolved
                 order.sku = products[ids[i]].sku;
                 order.buyer = msg.sender;
                 order.seller = products[ids[i]].seller;
@@ -217,10 +217,6 @@ contract Shop {
         }
 
         return true;
-    }
-
-    function totalOrdersOf(uint pid) public view returns (uint) {
-        return ordersOf[pid].length;
     }
 
     function totalCost(uint[] memory ids, uint[] memory qtys) internal view returns (uint) {
