@@ -1,7 +1,7 @@
-import game from '../assets/game.jpg'
 import Identicon from 'react-identicons'
 import { FaEthereum } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { truncate } from '../store'
 
 const Cards = ({ products, title, seller }) => {
   return (
@@ -16,7 +16,8 @@ const Cards = ({ products, title, seller }) => {
         ) : null}
         <h4 className="text-center uppercase">{title}</h4>
       </div>
-      <div className="flex flex-wrap justify-center items-center space-x-2 md:w-2/3 w-full p-5 mx-auto">
+
+      <div className="flex flex-wrap justify-center items-center space-x-6 md:w-2/3 w-full p-5 mx-auto">
         {products.map((product, i) => (
           <Card product={product} key={i} />
         ))}
@@ -37,17 +38,17 @@ const Cards = ({ products, title, seller }) => {
 }
 
 const Card = ({ product }) => (
-  <div className="flex flex-col justify-center items-start space-y-2 my-5 w-full sm:w-1/3">
+  <div className="flex flex-col justify-center items-start my-5 w-full sm:w-1/4">
     <Link to={'/product/' + product.id}>
       <img
         className="h-56 w-56 object-cover"
         src={product.imageURL}
         alt={product.name}
       />
-      <h4 className="text-lg font-bold">{product.name}</h4>
+      <h4 className="text-lg font-bold">{truncate(product.name, 20, 0, 23)}</h4>
     </Link>
 
-    <div className="flex justify-between items-center w-full">
+    <div className="flex justify-between items-center w-56">
       <div className="flex justify-start items-center">
         <FaEthereum size={15} />
         <span className="font-semibold">{product.price}</span>

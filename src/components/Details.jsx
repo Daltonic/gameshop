@@ -1,18 +1,20 @@
 import Identicon from 'react-identicons'
 import { FaEthereum } from 'react-icons/fa'
 import { useNavigate, Link } from 'react-router-dom'
-import { truncate } from '../store'
+import { truncate, useGlobalState } from '../store'
 import { addToCart } from '../Cart.Service'
 
 const Details = ({ product }) => {
   const navigate = useNavigate()
+  const [connectedAccount] = useGlobalState('connectedAccount')
+
   return (
     <div
       className="flex flex-col lg:flex-row justify-center lg:justify-between 
       items-center lg:space-x-10 md:w-2/3 w-full p-5 mx-auto"
     >
       <img
-        className="w-1/3 lg:w-2/5 mb-5 lg:mb-0"
+        className="h-56 w-56 object-cover mb-5 lg:mb-0"
         src={product.imageURL}
         alt={product.name}
       />
@@ -43,20 +45,31 @@ const Details = ({ product }) => {
         </div>
 
         <div className="flex justify-start text-center items-center flex-wrap space-x-2 mx-auto lg:ml-0">
-          <button
-            className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
-            leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg
-            focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-900 
-            active:shadow-lg transition duration-150 ease-in-out flex justify-start items-center space-x-2"
-            onClick={() => addToCart(product)}
-          >
-            <span>Add to Cart</span>
+          {connectedAccount == product.seller ? (
+            <button
+              className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
+              leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg
+              focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-900 
+              active:shadow-lg transition duration-150 ease-in-out flex justify-start items-center space-x-2"
+            >
+              <span>Edit Product</span>
+            </button>
+          ) : (
+            <button
+              className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
+              leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg
+              focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-900 
+              active:shadow-lg transition duration-150 ease-in-out flex justify-start items-center space-x-2"
+              onClick={() => addToCart(product)}
+            >
+              <span>Add to Cart</span>
 
-            <div className="flex justify-start items-center">
-              <FaEthereum size={15} />
-              <span className="font-semibold">{product.price}</span>
-            </div>
-          </button>
+              <div className="flex justify-start items-center">
+                <FaEthereum size={15} />
+                <span className="font-semibold">{product.price}</span>
+              </div>
+            </button>
+          )}
 
           <button
             className="px-6 py-2.5 bg-transparent border-blue-800 text-blue-800 font-medium text-xs 
