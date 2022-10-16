@@ -133,6 +133,7 @@ contract Shop {
         require(stock > 0, "stock cannot be zero");
 
         ProductStruct memory product;
+        product.id = id;
         product.seller = msg.sender;
         product.name = name;
         product.imageURL = imageURL;
@@ -141,8 +142,18 @@ contract Shop {
         product.stock = stock;
 
         products[id] = product;
+        updateOrderDetails(product);
 
         return true;
+    }
+
+    function updateOrderDetails(ProductStruct memory product) internal {
+        for(uint i=0; i < ordersOf[product.id].length; i++) {
+            OrderStruct memory order = ordersOf[product.id][i];
+            order.name = product.name;
+            order.imageURL = product.imageURL;
+            ordersOf[product.id][i] = order;
+        }
     }
 
     function deleteProduct(uint id) public returns (bool) {

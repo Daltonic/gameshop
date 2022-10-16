@@ -1,12 +1,18 @@
 import Identicon from 'react-identicons'
 import { FaEthereum } from 'react-icons/fa'
 import { useNavigate, Link } from 'react-router-dom'
-import { truncate, useGlobalState } from '../store'
+import { setGlobalState, truncate, useGlobalState } from '../store'
 import { addToCart } from '../Cart.Service'
 
 const Details = ({ product }) => {
   const navigate = useNavigate()
   const [connectedAccount] = useGlobalState('connectedAccount')
+
+  const onEditProduct = () => {
+    setGlobalState('product', product)
+    setGlobalState('updateModal', 'scale-100')
+    // console.log(product)
+  }
 
   return (
     <div
@@ -51,6 +57,7 @@ const Details = ({ product }) => {
               leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg
               focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-900 
               active:shadow-lg transition duration-150 ease-in-out flex justify-start items-center space-x-2"
+              onClick={onEditProduct}
             >
               <span>Edit Product</span>
             </button>

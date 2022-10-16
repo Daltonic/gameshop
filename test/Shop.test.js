@@ -14,7 +14,9 @@ describe('Shop', () => {
   const wrongId = 100
   let sku = 'RF301'
   let name = 'Game Console'
+  let newName = 'UPDATED title'
   let imageURL = 'https://website.com.image.jpg'
+  let newImageURL = 'https://newimageurl.com.image.png'
   let description = 'Abandoned by their parents to die.'
   let price = toWei(0.005)
   let stock = 13
@@ -65,7 +67,6 @@ describe('Shop', () => {
 
     it('Should confirm product updation', async () => {
       product = await contract.getProduct(id)
-      const newName = 'UPDATED title'
 
       expect(product.name).to.equal(name)
       await contract.updateProduct(
@@ -152,6 +153,28 @@ describe('Shop', () => {
       it('Should confirm buyers of product', async () => {
         const buyers = await contract.getBuyers(id)
         expect(buyers).to.have.lengthOf(2)
+      })
+      
+      it('Should confirm order and product update', async () => {
+        order = await contract.getOrder(id, id)
+        expect(order.name).to.equal(name)
+        expect(order.imageURL).to.equal(imageURL)
+
+        await contract.updateProduct(
+          id,
+          newName,
+          description,
+          newImageURL,
+          price,
+          stock,
+          {
+            from: seller.address,
+          },
+        )
+
+        order = await contract.getOrder(id, id)
+        expect(order.name).to.equal(newName)
+        expect(order.imageURL).to.equal(newImageURL)
       })
     })
   })

@@ -3,10 +3,12 @@ import address from './abis/contractAddress.json'
 import { getGlobalState, setGlobalState } from './store'
 import { ethers } from 'ethers'
 
+const toWei = (num) => ethers.utils.parseEther(num.toString())
+
 const { ethereum } = window
 const contractAddress = address.address
 const contractAbi = abi.abi
-const fee = ethers.utils.parseEther('0.002')
+const fee = toWei('0.002')
 
 const getEtheriumContract = () => {
   const connectedAccount = getGlobalState('connectedAccount')
@@ -69,7 +71,7 @@ const createProduct = async ({
     if (!ethereum) return alert('Please install Metamask')
     const connectedAccount = getGlobalState('connectedAccount')
     const contract = getEtheriumContract()
-    price = ethers.utils.parseEther(price)
+    price = toWei(price)
 
     await contract.createProduct(
       sku,
@@ -90,12 +92,44 @@ const createProduct = async ({
   }
 }
 
+const updateProduct = async ({
+  id,
+  name,
+  description,
+  imageURL,
+  price,
+  stock,
+}) => {
+  try {
+    if (!ethereum) return alert('Please install Metamask')
+    const connectedAccount = getGlobalState('connectedAccount')
+    const contract = getEtheriumContract()
+    price = toWei(price)
+
+    await contract.updateProduct(
+      id,
+      name,
+      description,
+      imageURL,
+      price,
+      stock,
+      {
+        from: connectedAccount,
+      },
+    )
+
+    window.location.reload()
+  } catch (error) {
+    reportError(error)
+  }
+}
+
 const createOrder = async ({ ids, qtys, phone, destination, grand }) => {
   try {
     if (!ethereum) return alert('Please install Metamask')
     const connectedAccount = getGlobalState('connectedAccount')
     const contract = getEtheriumContract()
-    grand = ethers.utils.parseEther(grand.toString())
+    grand = toWei(grand)
 
     await contract.createOrder(ids, qtys, destination, phone, {
       from: connectedAccount,
@@ -252,6 +286,7 @@ export {
   isWallectConnected,
   connectWallet,
   createProduct,
+  updateProduct,
   loadProducts,
   loadProduct,
   createOrder,

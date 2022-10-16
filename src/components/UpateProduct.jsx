@@ -1,22 +1,32 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
-import { createProduct } from '../Blockchain.Service'
+import { updateProduct } from '../Blockchain.Service'
 import { setGlobalState, useGlobalState } from '../store'
 
-const CreateProduct = () => {
-  const [modal] = useGlobalState('modal')
+const UpateProduct = () => {
+  const [modal] = useGlobalState('updateModal')
+  const [product] = useGlobalState('product')
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
   const [stock, setStock] = useState('')
+  const [oldStock, setOldStock] = useState('')
   const [description, setDescription] = useState('')
   const [imageURL, setImageURL] = useState('')
+
+  useEffect(() => {
+    setName(product.name)
+    setDescription(product.description)
+    setPrice(product.price)
+    setStock(product.stock)
+    setImageURL(product.imageURL)
+  }, [product])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!name || !price || !imageURL || !description || !stock) return
+    if (!name || !price || !imageURL || !description || !stock || stock < oldStock) return
     const params = {
-      sku: (Math.random() + 1).toString(36).substring(7).toUpperCase(),
+      id: product.id,
       name,
       description,
       stock,
@@ -24,35 +34,26 @@ const CreateProduct = () => {
       imageURL,
     }
 
-    await createProduct(params).then(() => {
+    await updateProduct(params).then(() => {
       closeModal()
-      console.log('Product Created!')
+      console.log('Product Updated!')
     })
   }
 
   const closeModal = () => {
-    setGlobalState('modal', 'scale-0')
-    resetForm()
-  }
-
-  const resetForm = () => {
-    setImageURL('')
-    setName('')
-    setPrice('')
-    setStock('')
-    setDescription('')
+    setGlobalState('updateModal', 'scale-0')
   }
 
   return (
     <div
       className={`fixed top-0 left-0 w-screen h-screen flex items-center
         justify-center bg-black bg-opacity-50 transform
-        transition-transform duration-300 ${modal}`}
+        transition-transform duration-300 z-50 ${modal}`}
     >
       <div className="bg-white shadow-xl shadow-black rounded-xl w-11/12 md:w-2/5 h-7/12 p-6">
         <form onSubmit={handleSubmit} className="flex flex-col">
           <div className="flex flex-row justify-between items-center">
-            <p className="font-semibold text-black">Add Product</p>
+            <p className="font-semibold text-black">Edit Product</p>
             <button
               type="button"
               onClick={closeModal}
@@ -103,7 +104,7 @@ const CreateProduct = () => {
               required
             />
           </div>
-          
+
           <div className="flex flex-row justify-between items-center bg-gray-300 rounded-xl mt-5">
             <input
               className="block w-full text-sm
@@ -158,7 +159,7 @@ const CreateProduct = () => {
               hover:border hover:border-blue-500
               focus:outline-none focus:ring mt-5"
           >
-            Create Product
+            Update Product
           </button>
         </form>
       </div>
@@ -166,4 +167,4 @@ const CreateProduct = () => {
   )
 }
 
-export default CreateProduct
+export default UpateProduct

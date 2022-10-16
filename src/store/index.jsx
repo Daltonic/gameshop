@@ -1,6 +1,7 @@
 import { createGlobalState } from 'react-hooks-global-state'
 
 const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
+  updateModal: 'scale-0',
   modal: 'scale-0',
   menu: 'scale-0',
   connectedAccount: '',

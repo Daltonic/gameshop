@@ -15,9 +15,13 @@ import Seller from './views/Seller'
 import Recent from './views/Recent'
 import Stats from './views/Stats'
 import Sales from './views/Sales'
+import { useGlobalState } from './store'
+import UpateProduct from './components/UpateProduct'
 
 const App = () => {
   const [loaded, setLoaded] = useState(false)
+  const [product] = useGlobalState('product')
+
   useEffect(async () => {
     await isWallectConnected().then(() => {
       checkStorage()
@@ -44,6 +48,7 @@ const App = () => {
 
       <AddButton />
       <CreateProduct />
+      <UpateProduct /> 
       <Menu />
     </div>
   ) : null
