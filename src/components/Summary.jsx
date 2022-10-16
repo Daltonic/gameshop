@@ -2,6 +2,7 @@ import { FaEthereum } from 'react-icons/fa'
 import { useState } from 'react'
 import { createOrder } from '../Blockchain.Service'
 import { clearCart } from '../Cart.Service'
+import { toast } from 'react-toastify'
 
 const Summary = ({ summary }) => {
   const [destination, setDestination] = useState('')
@@ -12,11 +13,24 @@ const Summary = ({ summary }) => {
     if (!phone || !destination) return
 
     const params = { phone, destination, ...summary }
-    await createOrder(params).then(() => {
-      console.log('Order placed successfully')
-      onReset()
-      clearCart()
-    })
+
+    await toast.promise(
+      new Promise(async (resolve, reject) => {
+        await createOrder(params)
+          .then(() => {
+            onReset()
+            clearCart()
+            resolve()
+          })
+          .catch(() => reject())
+      }),
+      {
+        pending: 'Approve transaction...',
+        success:
+          'Order placed, will reflect in your Order history within 30sec 🙌',
+        error: 'Encountered error placing order 🤯',
+      },
+    )
   }
 
   const onReset = () => {

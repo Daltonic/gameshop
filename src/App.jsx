@@ -1,26 +1,25 @@
 import { Route, Routes } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { isWallectConnected } from './Blockchain.Service'
+import { ToastContainer } from 'react-toastify'
 import { checkStorage } from './Cart.Service'
 import Header from './components/Header'
 import AddButton from './components/AddButton'
-import ShoppingCart from './views/ShoppingCart'
+import CreateProduct from './components/CreateProduct'
+import UpateProduct from './components/UpateProduct'
+import Menu from './components/Menu'
 import Home from './views/Home'
 import Product from './views/Product'
 import Orders from './views/Orders'
 import Chat from './views/Chat'
-import CreateProduct from './components/CreateProduct'
-import Menu from './components/Menu'
 import Seller from './views/Seller'
 import Recent from './views/Recent'
 import Stats from './views/Stats'
 import Sales from './views/Sales'
-import { useGlobalState } from './store'
-import UpateProduct from './components/UpateProduct'
+import ShoppingCart from './views/ShoppingCart'
 
 const App = () => {
   const [loaded, setLoaded] = useState(false)
-  const [product] = useGlobalState('product')
 
   useEffect(async () => {
     await isWallectConnected().then(() => {
@@ -48,8 +47,20 @@ const App = () => {
 
       <AddButton />
       <CreateProduct />
-      <UpateProduct /> 
+      <UpateProduct />
       <Menu />
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   ) : null
 }

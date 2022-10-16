@@ -2,29 +2,38 @@ import { useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { updateProduct } from '../Blockchain.Service'
 import { setGlobalState, useGlobalState } from '../store'
+import { toast } from 'react-toastify'
 
 const UpateProduct = () => {
   const [modal] = useGlobalState('updateModal')
   const [product] = useGlobalState('product')
-  const [name, setName] = useState('')
-  const [price, setPrice] = useState('')
-  const [stock, setStock] = useState('')
-  const [oldStock, setOldStock] = useState('')
-  const [description, setDescription] = useState('')
-  const [imageURL, setImageURL] = useState('')
+  const [name, setName] = useState(product?.name)
+  const [price, setPrice] = useState(product?.price)
+  const [stock, setStock] = useState(product?.stock)
+  const [oldStock, setOldStock] = useState(product?.stock)
+  const [description, setDescription] = useState(product?.description)
+  const [imageURL, setImageURL] = useState(product?.imageURL)
 
   useEffect(() => {
-    setName(product.name)
-    setDescription(product.description)
-    setPrice(product.price)
-    setStock(product.stock)
-    setImageURL(product.imageURL)
+    setName(product?.name)
+    setDescription(product?.description)
+    setPrice(product?.price)
+    setStock(product?.stock)
+    setImageURL(product?.imageURL)
   }, [product])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!name || !price || !imageURL || !description || !stock || stock < oldStock) return
+    if (
+      !name ||
+      !price ||
+      !imageURL ||
+      !description ||
+      !stock ||
+      stock < oldStock
+    )
+      return
     const params = {
       id: product.id,
       name,
@@ -34,10 +43,21 @@ const UpateProduct = () => {
       imageURL,
     }
 
-    await updateProduct(params).then(() => {
-      closeModal()
-      console.log('Product Updated!')
-    })
+    await toast.promise(
+      new Promise(async (resolve, reject) => {
+        await updateProduct(params)
+          .then(() => resolve())
+          .catch(() => reject())
+      }),
+      {
+        pending: 'Approve transaction to product...',
+        success: 'Product successfully updated, will reflect within 30sec 🦄',
+        error: 'Encountered error updating your product 🤯',
+      },
+    )
+
+    closeModal()
+    console.log('Product updated')
   }
 
   const closeModal = () => {
@@ -84,7 +104,7 @@ const UpateProduct = () => {
               name="name"
               placeholder="Title"
               onChange={(e) => setName(e.target.value)}
-              value={name}
+              value={name || ''}
               required
             />
           </div>
@@ -100,7 +120,7 @@ const UpateProduct = () => {
               name="price"
               placeholder="price (Eth)"
               onChange={(e) => setPrice(e.target.value)}
-              value={price}
+              value={price || ''}
               required
             />
           </div>
@@ -115,7 +135,7 @@ const UpateProduct = () => {
               name="stock"
               placeholder="E.g. 2"
               onChange={(e) => setStock(e.target.value)}
-              value={stock}
+              value={stock || ''}
               required
             />
           </div>
@@ -130,7 +150,7 @@ const UpateProduct = () => {
               placeholder="ImageURL"
               onChange={(e) => setImageURL(e.target.value)}
               pattern="^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$"
-              value={imageURL}
+              value={imageURL || ''}
               required
             />
           </div>
@@ -144,7 +164,7 @@ const UpateProduct = () => {
               name="description"
               placeholder="Description"
               onChange={(e) => setDescription(e.target.value)}
-              value={description}
+              value={description || ''}
               required
             ></textarea>
           </div>

@@ -38,7 +38,7 @@ const Cards = ({ products, title, seller }) => {
 }
 
 const Card = ({ product }) => (
-  <div className="flex flex-col justify-center items-start my-5 w-full sm:w-1/4">
+  <div className="flex flex-col justify-center items-center sm:items-start my-5 w-full sm:w-1/4">
     <Link to={'/product/' + product.id}>
       <img
         className="h-56 w-56 object-cover"
@@ -48,7 +48,7 @@ const Card = ({ product }) => (
       <h4 className="text-lg font-bold">{truncate(product.name, 20, 0, 23)}</h4>
     </Link>
 
-    <div className="flex justify-between items-center w-56">
+    <div className="flex flex-row sm:flex-col justify-between items-start w-56">
       <div className="flex justify-start items-center">
         <FaEthereum size={15} />
         <span className="font-semibold">{product.price}</span>

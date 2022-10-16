@@ -2,9 +2,42 @@ import { Link } from 'react-router-dom'
 import { FaEthereum } from 'react-icons/fa'
 import { cancelOrder, delieverOrder } from '../Blockchain.Service'
 import { useGlobalState } from '../store'
+import { toast } from 'react-toastify'
 
 const DELEVIRED = 1
 const CANCELED = 2
+
+const onDeliver = async (pid, id) => {
+  await toast.promise(
+    new Promise(async (resolve, reject) => {
+      await delieverOrder(pid, id)
+        .then(() => resolve())
+        .catch(() => reject())
+    }),
+    {
+      pending: 'Approve transaction...',
+      success:
+        'Order delivered, will reflect in your Order history within 30sec 🙌',
+      error: 'Encountered error placing order 🤯',
+    },
+  )
+}
+
+const onCancel = async (pid, id) => {
+  await toast.promise(
+    new Promise(async (resolve, reject) => {
+      await cancelOrder(pid, id)
+        .then(() => resolve())
+        .catch(() => reject())
+    }),
+    {
+      pending: 'Approve transaction...',
+      success:
+        'Order delivered, will reflect in your Order history within 30sec 🙌',
+      error: 'Encountered error placing order 🤯',
+    },
+  )
+}
 
 const Order = ({ orders, title, seller }) => {
   const [connectedAccount] = useGlobalState('connectedAccount')
@@ -110,7 +143,7 @@ const SellerOrder = ({ order, i }) => (
                 font-medium text-xs leading-tight uppercase hover:bg-green-700 
                 focus:bg-green-700 focus:outline-none focus:ring-0 active:bg-green-800
                 transition duration-150 ease-in-out"
-          onClick={() => delieverOrder(order.pid, order.id)}
+          onClick={() => onDeliver(order.pid, order.id)}
         >
           Deliever
         </button>
@@ -168,7 +201,7 @@ const BuyerOrder = ({ order, i }) => (
               font-medium text-xs leading-tight uppercase hover:bg-blue-700 
               focus:bg-blue-700 focus:outline-none focus:ring-0 active:bg-blue-800
               transition duration-150 ease-in-out"
-          onClick={() => cancelOrder(order.pid, order.id)}
+          onClick={() => onCancel(order.pid, order.id)}
         >
           Cancel
         </button>
@@ -237,7 +270,7 @@ const MobileSellerOrder = ({ order, i }) => (
                 font-medium text-xs leading-tight uppercase hover:bg-green-700 
                 focus:bg-green-700 focus:outline-none focus:ring-0 active:bg-green-800
                 transition duration-150 ease-in-out"
-          onClick={() => delieverOrder(order.pid, order.id)}
+          onClick={() => onDeliver(order.pid, order.id)}
         >
           Deliever
         </button>
@@ -300,7 +333,7 @@ const MobileBuyerOrder = ({ order, i }) => (
                 font-medium text-xs leading-tight uppercase hover:bg-green-700 
                 focus:bg-green-700 focus:outline-none focus:ring-0 active:bg-green-800
                 transition duration-150 ease-in-out"
-          onClick={() => cancelOrder(order.pid, order.id)}
+          onClick={() => onCancel(order.pid, order.id)}
         >
           Cancel
         </button>

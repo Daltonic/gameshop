@@ -85,8 +85,6 @@ const createProduct = async ({
         value: fee._hex,
       },
     )
-
-    window.location.reload()
   } catch (error) {
     reportError(error)
   }
@@ -117,8 +115,6 @@ const updateProduct = async ({
         from: connectedAccount,
       },
     )
-
-    window.location.reload()
   } catch (error) {
     reportError(error)
   }
@@ -205,7 +201,6 @@ const delieverOrder = async (pid, id) => {
     const connectedAccount = getGlobalState('connectedAccount')
     const contract = getEtheriumContract()
     await contract.deliverOrder(pid, id, { from: connectedAccount })
-    window.location.reload()
   } catch (error) {
     reportError(error)
   }
@@ -217,7 +212,6 @@ const cancelOrder = async (pid, id) => {
     const connectedAccount = getGlobalState('connectedAccount')
     const contract = getEtheriumContract()
     await contract.cancelOrder(pid, id, { from: connectedAccount })
-    window.location.reload()
   } catch (error) {
     reportError(error)
   }

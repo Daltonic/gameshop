@@ -207,15 +207,6 @@ contract Shop {
 
                 ordersOf[order.pid].push(order);
                 orderExist[order.pid][order.id] = true;
-                
-                buyersOf[ids[i]].push(
-                    BuyerStruct(
-                        order.buyer,
-                        order.total / order.qty,
-                        order.qty,
-                        block.timestamp
-                    )
-                );
 
                 emit Sale(
                     order.id,

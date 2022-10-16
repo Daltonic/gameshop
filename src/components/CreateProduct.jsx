@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { createProduct } from '../Blockchain.Service'
 import { setGlobalState, useGlobalState } from '../store'
+import { toast } from 'react-toastify'
 
 const CreateProduct = () => {
   const [modal] = useGlobalState('modal')
@@ -24,10 +25,20 @@ const CreateProduct = () => {
       imageURL,
     }
 
-    await createProduct(params).then(() => {
-      closeModal()
-      console.log('Product Created!')
-    })
+    await toast.promise(
+      new Promise(async (resolve, reject) => {
+        await createProduct(params)
+          .then(() => resolve())
+          .catch(() => reject())
+      }),
+      {
+        pending: 'Approve transaction to product...',
+        success: 'Product successfully created, will reflect within 30sec 👌',
+        error: 'Encountered error updating your product 🤯',
+      },
+    )
+
+    closeModal()
   }
 
   const closeModal = () => {
