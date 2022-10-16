@@ -17,6 +17,7 @@ import Recent from './views/Recent'
 import Stats from './views/Stats'
 import Sales from './views/Sales'
 import ShoppingCart from './views/ShoppingCart'
+import DeleteProduct from './components/DeleteProduct'
 
 const App = () => {
   const [loaded, setLoaded] = useState(false)
@@ -48,6 +49,7 @@ const App = () => {
       <AddButton />
       <CreateProduct />
       <UpateProduct />
+      <DeleteProduct />
       <Menu />
       <ToastContainer
         position="bottom-center"

@@ -8,10 +8,14 @@ const Details = ({ product }) => {
   const navigate = useNavigate()
   const [connectedAccount] = useGlobalState('connectedAccount')
 
-  const onEditProduct = () => {
+  const handleEdit = () => {
     setGlobalState('product', product)
     setGlobalState('updateModal', 'scale-100')
-    // console.log(product)
+  }
+
+  const handleDelete = () => {
+    setGlobalState('product', product)
+    setGlobalState('deleteModal', 'scale-100')
   }
 
   return (
@@ -51,16 +55,28 @@ const Details = ({ product }) => {
         </div>
 
         <div className="flex justify-start text-center items-center flex-wrap space-x-2 mx-auto lg:ml-0">
-          {connectedAccount == product.seller ? (
-            <button
-              className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
-              leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg
-              focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-900 
-              active:shadow-lg transition duration-150 ease-in-out flex justify-start items-center space-x-2"
-              onClick={onEditProduct}
-            >
-              <span>Edit Product</span>
-            </button>
+          {product.deleted ? null : connectedAccount == product.seller ? (
+            <div className="flex justify-start text-center items-center space-x-2">
+              <button
+                className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
+                  leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg
+                  focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-900 
+                  active:shadow-lg transition duration-150 ease-in-out flex justify-start items-center space-x-2"
+                onClick={handleEdit}
+              >
+                <span>Edit Product</span>
+              </button>
+
+              <button
+                className="px-6 py-2.5 bg-red-800 text-white font-medium text-xs 
+                  leading-tight uppercase rounded shadow-md hover:bg-red-900 hover:shadow-lg
+                  focus:bg-red-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-900 
+                  active:shadow-lg transition duration-150 ease-in-out flex justify-start items-center space-x-2"
+                onClick={handleDelete}
+              >
+                <span>Delete Product</span>
+              </button>
+            </div>
           ) : (
             <button
               className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
@@ -77,7 +93,6 @@ const Details = ({ product }) => {
               </div>
             </button>
           )}
-
           <button
             className="px-6 py-2.5 bg-transparent border-blue-800 text-blue-800 font-medium text-xs 
             leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg border

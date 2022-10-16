@@ -120,6 +120,17 @@ const updateProduct = async ({
   }
 }
 
+const deleteProduct = async (id) => {
+  try {
+    if (!ethereum) return alert('Please install Metamask')
+    const connectedAccount = getGlobalState('connectedAccount')
+    const contract = getEtheriumContract()
+    await contract.deleteProduct(id, { from: connectedAccount })
+  } catch (error) {
+    reportError(error)
+  }
+}
+
 const createOrder = async ({ ids, qtys, phone, destination, grand }) => {
   try {
     if (!ethereum) return alert('Please install Metamask')
@@ -281,6 +292,7 @@ export {
   connectWallet,
   createProduct,
   updateProduct,
+  deleteProduct,
   loadProducts,
   loadProduct,
   createOrder,
