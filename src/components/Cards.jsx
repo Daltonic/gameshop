@@ -18,9 +18,9 @@ const Cards = ({ products, title, seller }) => {
       </div>
 
       <div className="flex flex-wrap justify-center items-center space-x-6 md:w-2/3 w-full p-5 mx-auto">
-        {products.map((product, i) => (
-          <Card product={product} key={i} />
-        ))}
+        {products.map((product, i) =>
+          product.deleted ? null : <Card product={product} key={i} />,
+        )}
       </div>
 
       <div className="flex justify-center items-center my-5">
