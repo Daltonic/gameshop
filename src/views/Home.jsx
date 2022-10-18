@@ -5,6 +5,7 @@ import { useGlobalState } from '../store'
 import { loadProducts } from '../Blockchain.Service'
 import { useEffect, useState } from 'react'
 
+
 const Home = () => {
   const [products] = useGlobalState('products')
   const [stats] = useGlobalState('stats')

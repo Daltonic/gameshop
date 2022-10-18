@@ -142,17 +142,14 @@ describe('Shop', () => {
         expect(order.status).to.equal(DELEVIRED)
         stats = await contract.statsOf(seller.address)
         expect(stats.paid).to.equal(order.total)
+        const buyers = await contract.getBuyers(id)
+        expect(await buyers).to.have.lengthOf(2)
       })
 
       it('Should confirm order marked as cancel', async () => {
         await contract.connect(buyer).cancelOrder(id + 1, id + 1)
         order = await contract.getOrder(id + 1, id + 1)
         expect(order.status).to.equal(CANCELED)
-      })
-
-      it('Should confirm buyers of product', async () => {
-        const buyers = await contract.getBuyers(id)
-        expect(buyers).to.have.lengthOf(2)
       })
       
       it('Should confirm order and product update', async () => {

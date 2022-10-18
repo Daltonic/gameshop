@@ -18,13 +18,16 @@ import Stats from './views/Stats'
 import Sales from './views/Sales'
 import ShoppingCart from './views/ShoppingCart'
 import DeleteProduct from './components/DeleteProduct'
+import ChatModal from './components/ChatModal'
+import { isUserLoggedIn } from './Chat.Service'
 
 const App = () => {
   const [loaded, setLoaded] = useState(false)
 
   useEffect(async () => {
-    await isWallectConnected().then(() => {
+    await isWallectConnected().then(async () => {
       checkStorage()
+      await isUserLoggedIn()
       setLoaded(true)
       console.log('Blockchain Loaded')
     })
@@ -51,6 +54,7 @@ const App = () => {
       <UpateProduct />
       <DeleteProduct />
       <Menu />
+      <ChatModal />
       <ToastContainer
         position="bottom-center"
         autoClose={5000}

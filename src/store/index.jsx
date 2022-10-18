@@ -1,11 +1,13 @@
 import { createGlobalState } from 'react-hooks-global-state'
 
 const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
+  chatModal: 'scale-0',
   deleteModal: 'scale-0',
   updateModal: 'scale-0',
   modal: 'scale-0',
   menu: 'scale-0',
   connectedAccount: '',
+  currentUser: null,
   contract: null,
   stats: null,
   myStats: null,
