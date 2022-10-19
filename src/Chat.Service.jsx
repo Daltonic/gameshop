@@ -56,6 +56,12 @@ const isUserLoggedIn = async () => {
     .catch((error) => console.log('error:', error))
 }
 
+const getUser = async (UID) => {
+  return await CometChat.getUser(UID)
+    .then((user) => user)
+    .catch((error) => error)
+}
+
 const getMessages = async (UID) => {
   const limit = 30
   const messagesRequest = new CometChat.MessagesRequestBuilder()
@@ -91,6 +97,7 @@ const getConversations = async () => {
   return await conversationsRequest
     .fetchNext()
     .then((conversationList) => conversationList)
+    .catch((error) => error)
 }
 
 export {
@@ -102,5 +109,6 @@ export {
   sendMessage,
   getConversations,
   isUserLoggedIn,
+  getUser,
   CometChat,
 }

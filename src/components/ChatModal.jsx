@@ -11,10 +11,7 @@ const ChatModal = () => {
     await toast.promise(
       new Promise(async (resolve, reject) => {
         await loginWithCometChat(connectedAccount)
-          .then((res) => {
-            console.log(res)
-            res ? resolve() : reject()
-          })
+          .then((res) => res == true ? resolve() : reject())
           .catch(() => reject())
       }),
       {
@@ -31,10 +28,7 @@ const ChatModal = () => {
     await toast.promise(
       new Promise(async (resolve, reject) => {
         await signUpWithCometChat(connectedAccount, connectedAccount)
-          .then((res) => {
-            console.log(res)
-            res ? resolve() : reject()
-          })
+          .then((res) => res == true ? resolve() : reject())
           .catch(() => reject())
       }),
       {

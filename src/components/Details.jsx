@@ -3,16 +3,26 @@ import { FaEthereum } from 'react-icons/fa'
 import { useNavigate, Link } from 'react-router-dom'
 import { setGlobalState, truncate, useGlobalState } from '../store'
 import { addToCart } from '../Cart.Service'
+import { useEffect, useState } from 'react'
+import { getUser } from '../Chat.Service'
+import { toast } from 'react-toastify'
 
 const Details = ({ product }) => {
   const navigate = useNavigate()
   const [connectedAccount] = useGlobalState('connectedAccount')
   const [currentUser] = useGlobalState('currentUser')
+  const [seller, setSeller] = useState(false)
 
   const handleChat = () => {
-    currentUser
-      ? navigate('/chat/' + product.seller)
-      : setGlobalState('chatModal', 'scale-100')
+    if (currentUser) {
+      if (seller) {
+        navigate('/chat/' + product.seller)
+      } else {
+        toast('Seller not registered for chat yet!')
+      }
+    } else {
+      setGlobalState('chatModal', 'scale-100')
+    }
   }
 
   const handleEdit = () => {
@@ -24,6 +34,12 @@ const Details = ({ product }) => {
     setGlobalState('product', product)
     setGlobalState('deleteModal', 'scale-100')
   }
+
+  useEffect(async () => {
+    await getUser(product.seller).then((user) => {
+      if (user.name) setSeller(user.uid == product.seller)
+    })
+  }, [])
 
   return (
     <div
@@ -85,32 +101,30 @@ const Details = ({ product }) => {
               </button>
             </div>
           ) : (
-            <div className="flex justify-start text-center items-center space-x-1">
-              <button
-                className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
-                leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg
-                focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-900 
-                active:shadow-lg transition duration-150 ease-in-out flex justify-start items-center space-x-2"
-                onClick={() => addToCart(product)}
-              >
-                <span>Add to Cart</span>
+            <button
+              className="px-6 py-2.5 bg-blue-800 text-white font-medium text-xs 
+              leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg
+              focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-900 
+              active:shadow-lg transition duration-150 ease-in-out flex justify-start items-center space-x-2"
+              onClick={() => addToCart(product)}
+            >
+              <span>Add to Cart</span>
 
-                <div className="flex justify-start items-center">
-                  <FaEthereum size={15} />
-                  <span className="font-semibold">{product.price}</span>
-                </div>
-              </button>
-              <button
-                className="px-6 py-2.5 bg-transparent border-blue-800 text-blue-800 font-medium text-xs 
-                leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg border
-                focus:border-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:border-blue-900 
-                active:shadow-lg transition duration-150 ease-in-out hover:text-white"
-                onClick={handleChat}
-              >
-                Chat with Seller
-              </button>
-            </div>
+              <div className="flex justify-start items-center">
+                <FaEthereum size={15} />
+                <span className="font-semibold">{product.price}</span>
+              </div>
+            </button>
           )}
+          <button
+            className="px-6 py-2.5 bg-transparent border-blue-800 text-blue-800 font-medium text-xs 
+            leading-tight uppercase rounded shadow-md hover:bg-blue-900 hover:shadow-lg border
+            focus:border-blue-900 focus:shadow-lg focus:outline-none focus:ring-0 active:border-blue-900 
+            active:shadow-lg transition duration-150 ease-in-out hover:text-white"
+            onClick={handleChat}
+          >
+            Chat with Seller
+          </button>
         </div>
       </div>
     </div>
