@@ -1,32 +1,59 @@
+# How to Build a Fantastic Web3 Game Sales Shop with React and Solidity
 
-# Hardhat-Tailwind-React Ethers Starter Kit
-Speedily develope your decentralized application with this starter kit for free!
+Read the full tutorial here: [**>> How to Build a Fantastic Web3 Game Sales Shop with React and Solidity**](https://daltonic.github.io)
 
-Follow the steps below to download, install, and run this project.
+This example shows How to Build a Fantastic Web3 Game Sales Shop with React and Solidity:
 
-## Dependencies
-Install these prerequisites to follow along with the tutorial. See free video tutorial or a full explanation of each prerequisite.
-- NPM: https://nodejs.org
-- Hardhat: https://hardhat.org/
-- EthersJs: https://ethers.org/
-- Tailwind CSS: https://tailwindcss.com/
+![Game Shop](./screenshots/0.gif)
+<center><figcaption>Game Shop</figcaption></center>
 
+## Technology
 
-## Step 1. Clone the project
-`git clone https://github.com/Daltonic/tailwind_ethers_starter_kit <PROJECT NAME>`
+This demo uses:
 
-## Step 2. Install dependencies
-```sh
-$ cd <PROJECT NAME>
-$ yarn install # or npm install
-```
-## Step 3. Start Hardhat Node
-Open the terminal and run the command below.
-```sh
-$ yarn hardhat node
-```
+- Metamask
+- Hardhat
+- Alchamy
+- ReactJs
+- Tailwind CSS
+- Solidity
+- EthersJs
+- Faucet
 
-## Step 4. Run the Front End Application
-`$ yarn start`
-Visit this URL in your browser: http://localhost:3000
+## Running the demo
 
+To run the demo follow these steps:
+
+1. Clone the project with the code below.
+    ```sh
+
+    # Make sure you have the above prerequisites installed already!
+    git clone https://github.com/Daltonic/gameshop gameShop
+    cd gameShop # Navigate to the new folder.
+    yarn install # Installs all the dependencies.
+    ```
+2. Create an Alchemy project, copy and paste your key in the spaces below.
+2. Update the `.env` file with the following details.
+    ```sh
+    ENDPOINT_URL=<PROVIDER_URL>
+    DEPLOYER_KEY=<YOUR_PRIVATE_KEY>
+    ```
+3. Run the app using `yarn start`
+<br/>
+
+If your confuse about the installation, check out this **TUTORIAL** to see how you should run it.
+
+Questions about running the demo? [Open an issue](https://github.com/Daltonic/gameshop/issues). We're here to help ✌️
+
+## Useful links
+
+- 🏠 [Website](https://daltonic.github.io/)
+- ⚽ [Metamask](https://metamask.io/)
+- 🚀 [Remix Editor](https://remix.ethereum.org/)
+- 💡 [Hardhat](https://hardhat.org/)
+- 📈 [Alchamy](https://www.alchemy.com/)
+- 🔥 [ReactJs](https://reactjs.org/)
+- 🐻 [Solidity](https://soliditylang.org/)
+- 👀 [Ethersjs](https://docs.ethers.io/v5/)
+- 🎅 [Faucet](https://goerli-faucet.pk910.de/)
+- ✨ [Live Demo](https://gameshop-af682.web.app/)
