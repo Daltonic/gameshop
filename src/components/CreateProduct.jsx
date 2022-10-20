@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { createProduct } from '../Blockchain.Service'
 import { setGlobalState, useGlobalState } from '../store'
 import { toast } from 'react-toastify'
+import { getUser } from '../Chat.Service'
 
 const CreateProduct = () => {
   const [modal] = useGlobalState('modal')
@@ -11,6 +12,7 @@ const CreateProduct = () => {
   const [stock, setStock] = useState('')
   const [description, setDescription] = useState('')
   const [imageURL, setImageURL] = useState('')
+  const [seller, setSeller] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -39,7 +41,15 @@ const CreateProduct = () => {
     )
 
     closeModal()
+
+    if(!seller) toast("Please sign in to have your customers chat with you.")
   }
+
+  useEffect(async () => {
+    await getUser(product.seller).then((user) => {
+      if (user.name) setSeller(user.uid == product.seller)
+    })
+  }, [])
 
   const closeModal = () => {
     setGlobalState('modal', 'scale-0')

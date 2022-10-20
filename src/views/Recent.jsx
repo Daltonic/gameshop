@@ -3,14 +3,23 @@ import Identicon from 'react-identicons'
 import { useNavigate } from 'react-router-dom'
 import { getConversations } from '../Chat.Service'
 import { truncate, useGlobalState } from '../store'
+import { toast } from 'react-toastify'
+
 const Recent = () => {
   const [users, setUsers] = useState([])
+  const [currentUser] = useGlobalState('currentUser')
+  const navigate = useNavigate()
 
   useEffect(async () => {
-    await getConversations().then((list) => setUsers(list))
+    if (currentUser) {
+      await getConversations().then((list) => setUsers(list))
+    } else {
+      toast('Please authenticate with the chat feature first!')
+      navigate('/')
+    }
   }, [])
 
-  return (
+  return currentUser ? (
     <>
       <div className="h-20"></div>
       <div className="flex flex-col justify-between items-center space-x-2 md:w-2/3 w-full p-5 mx-auto">
@@ -33,7 +42,7 @@ const Recent = () => {
         </div>
       </div>
     </>
-  )
+  ) : null
 }
 
 const Conversation = ({ conversation }) => {
@@ -65,7 +74,9 @@ const Conversation = ({ conversation }) => {
         />
 
         <div className="flex flex-col justify-start space-y-2">
-          <h4 className="font-bold text-md">{truncate(uid(conversation), 4, 4, 11)}</h4>
+          <h4 className="font-bold text-md">
+            {truncate(uid(conversation), 4, 4, 11)}
+          </h4>
           <span className="text-sm">{conversation.text}</span>
           <small className="font-bold">
             {new Date(conversation.sentAt * 1000).toLocaleDateString()}{' '}

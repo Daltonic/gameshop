@@ -4,16 +4,28 @@ import { FaTimes } from 'react-icons/fa'
 import { useNavigate, useParams } from 'react-router-dom'
 import { truncate, useGlobalState } from '../store'
 import { sendMessage, CometChat, getMessages } from '../Chat.Service'
+import { toast } from 'react-toastify'
 
 const Chat = () => {
   const { id } = useParams()
+  const [currentUser] = useGlobalState('currentUser')
+  const navigate = useNavigate()
 
-  return (
+  useEffect(async () => {
+    if (currentUser) {
+      await getConversations().then((list) => setUsers(list))
+    } else {
+      toast('Please authenticate with the chat feature first!')
+      navigate('/')
+    }
+  }, [])
+
+  return currentUser ? (
     <>
       <ChatHeader id={id} />
       <Messages id={id} />
     </>
-  )
+  ) : null
 }
 
 const ChatHeader = ({ id }) => {
