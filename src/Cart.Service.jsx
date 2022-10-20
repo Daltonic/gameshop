@@ -51,6 +51,8 @@ const summarizeCart = () => {
   summary.tax = 0.002
   summary.grand = summary.total + summary.tax
   setGlobalState('summary', summary)
+  summary.total = 0
+  // summary.grand = 0
 }
 
 const checkStorage = () => {

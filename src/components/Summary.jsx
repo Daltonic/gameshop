@@ -105,7 +105,7 @@ const Summary = ({ summary }) => {
           <small className="flex justify-start items-center space-x-1">
             <FaEthereum />
             <span className="text-gray-700">
-              {summary.total.toFixed(3)} EHT
+              {(summary.grand - summary.tax).toFixed(3)} EHT
             </span>
           </small>
         </div>
