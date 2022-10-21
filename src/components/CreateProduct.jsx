@@ -7,6 +7,7 @@ import { getUser } from '../Chat.Service'
 
 const CreateProduct = () => {
   const [modal] = useGlobalState('modal')
+  const [connectedAccount] = useGlobalState('connectedAccount')
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
   const [stock, setStock] = useState('')
@@ -46,8 +47,8 @@ const CreateProduct = () => {
   }
 
   useEffect(async () => {
-    await getUser(product.seller).then((user) => {
-      if (user.name) setSeller(user.uid == product.seller)
+    await getUser(connectedAccount).then((user) => {
+      if (user.name) setSeller(user.uid == connectedAccount)
     })
   }, [])
 

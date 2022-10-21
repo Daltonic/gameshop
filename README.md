@@ -5,7 +5,17 @@ Read the full tutorial here: [**>> How to Build a Fantastic Web3 Game Sales Shop
 This example shows How to Build a Fantastic Web3 Game Sales Shop with React and Solidity:
 
 ![Game Shop](./screenshots/0.gif)
-<center><figcaption>Game Shop</figcaption></center>
+<center><figcaption>Game Products</figcaption></center>
+
+![Add Product](./screenshots/1.gif)
+<center><figcaption>Add Product</figcaption></center>
+
+![Cancel Orders](./screenshots/2.gif)
+
+<center><figcaption>Cancel Orders</figcaption></center>
+
+![Placing Orders](./screenshots/3.gif)
+<center><figcaption>Placing Orders</figcaption></center>
 
 ## Technology
 
