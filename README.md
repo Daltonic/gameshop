@@ -38,7 +38,7 @@ To run the demo follow these steps:
     ```sh
 
     # Make sure you have the above prerequisites installed already!
-    git clone https://github.com/Daltonic/gameshop gameShop
+    git clone https://github.com/Daltonic/tailwind_ethers_starter_kit gameShop
     cd gameShop # Navigate to the new folder.
     yarn install # Installs all the dependencies.
     ```
